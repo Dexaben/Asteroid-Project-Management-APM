@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2F561808-90BF-4D39-BDF6-B91AD30DFBED}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Asteroid_Project_ManagerCEO</RootNamespace>
+    <AssemblyName>Asteroid_Project_ManagerCEO</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnaForm.Designer.cs">
+      <DependentUpon>AnaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\activity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\activity.Designer.cs">
+      <DependentUpon>activity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AnaPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AnaPanel.Designer.cs">
+      <DependentUpon>AnaPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan.Designer.cs">
+      <DependentUpon>calisan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan_detay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan_detay.Designer.cs">
+      <DependentUpon>calisan_detay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan_ekle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan_ekle.Designer.cs">
+      <DependentUpon>calisan_ekle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan_guncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan_guncelle.Designer.cs">
+      <DependentUpon>calisan_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\departman.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\departman.Designer.cs">
+      <DependentUpon>departman.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\departman_ekle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\departman_ekle.Designer.cs">
+      <DependentUpon>departman_ekle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\departman_guncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\departman_guncelle.Designer.cs">
+      <DependentUpon>departman_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\giris.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\giris.Designer.cs">
+      <DependentUpon>giris.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\gorev.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\gorev.Designer.cs">
+      <DependentUpon>gorev.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\kayit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\kayit.Designer.cs">
+      <DependentUpon>kayit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\pozisyonlar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\pozisyonlar.Designer.cs">
+      <DependentUpon>pozisyonlar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\projeler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\projeler.Designer.cs">
+      <DependentUpon>projeler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\sirket_guncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\sirket_guncelle.Designer.cs">
+      <DependentUpon>sirket_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FUNCTIONS.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Forms\proje_detay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\proje_detay.Designer.cs">
+      <DependentUpon>proje_detay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Forms\serial_gir.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\serial_gir.Designer.cs">
+      <DependentUpon>serial_gir.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\sirket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\sirket.Designer.cs">
+      <DependentUpon>sirket.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AnaForm.resx">
+      <DependentUpon>AnaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\activity.resx">
+      <DependentUpon>activity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AnaPanel.resx">
+      <DependentUpon>AnaPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan.resx">
+      <DependentUpon>calisan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan_detay.resx">
+      <DependentUpon>calisan_detay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan_ekle.resx">
+      <DependentUpon>calisan_ekle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan_guncelle.resx">
+      <DependentUpon>calisan_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\departman.resx">
+      <DependentUpon>departman.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\departman_ekle.resx">
+      <DependentUpon>departman_ekle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\departman_guncelle.resx">
+      <DependentUpon>departman_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\giris.resx">
+      <DependentUpon>giris.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\gorev.resx">
+      <DependentUpon>gorev.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\kayit.resx">
+      <DependentUpon>kayit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\pozisyonlar.resx">
+      <DependentUpon>pozisyonlar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\projeler.resx">
+      <DependentUpon>projeler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\sirket.resx">
+      <DependentUpon>sirket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\sirket_guncelle.resx">
+      <DependentUpon>sirket_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\proje_detay.resx">
+      <DependentUpon>proje_detay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Forms\serial_gir.resx">
+      <DependentUpon>serial_gir.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\235-2357327_location-arithmetic-horizontal-horizontal-solid-black-line-hd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\asteroidstudiosPNG.png" />
+    <Content Include="Resources\department.jpg" />
+    <Content Include="Resources\iconlar\ACİL.png" />
+    <Content Include="Resources\iconlar\ADMİN PANEL.png" />
+    <Content Include="Resources\iconlar\BAŞLANGIÇ TARİHİ.png" />
+    <Content Include="Resources\iconlar\BİTİŞ TARİHİİ.png" />
+    <Content Include="Resources\iconlar\CİNSİYET.png" />
+    <Content Include="Resources\iconlar\default_company_image.jpg" />
+    <Content Include="Resources\iconlar\default_department_image.jpg" />
+    <Content Include="Resources\iconlar\default_project_image.jpg" />
+    <Content Include="Resources\iconlar\default_task_image.jpg" />
+    <Content Include="Resources\iconlar\default_worker_image.jpg" />
+    <Content Include="Resources\iconlar\DEPARTMAN EKLE.png" />
+    <Content Include="Resources\iconlar\DETAİL.png" />
+    <Content Include="Resources\iconlar\DURUM AŞAMASI.png" />
+    <Content Include="Resources\iconlar\GÖREV%28DEADLİNE%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28EKLE%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28LİSTELE%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28TAKVİM%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28ÇİZELGE%29.png" />
+    <Content Include="Resources\iconlar\GÖREVLER.png" />
+    <Content Include="Resources\iconlar\GÖREVİ BİTİR.png" />
+    <Content Include="Resources\iconlar\GÜNCELLE.png" />
+    <Content Include="Resources\iconlar\GİRİŞYAP.png" />
+    <Content Include="Resources\iconlar\KAYDOL.png" />
+    <Content Include="Resources\iconlar\KULLANICI PANEL.png" />
+    <Content Include="Resources\iconlar\LOG.png" />
+    <Content Include="Resources\iconlar\MAİL.png" />
+    <Content Include="Resources\iconlar\onayli.png" />
+    <Content Include="Resources\iconlar\onaysiz.png" />
+    <Content Include="Resources\iconlar\POZİSYON.png" />
+    <Content Include="Resources\iconlar\PROJE EKLE.png" />
+    <Content Include="Resources\iconlar\PROJE TAKIMI.png" />
+    <Content Include="Resources\iconlar\PROJE YÖNETİCİSİ.png" />
+    <Content Include="Resources\iconlar\PROJELER.png" />
+    <Content Include="Resources\iconlar\PROJEYE GİR.png" />
+    <Content Include="Resources\iconlar\RAPORLAMA.png" />
+    <Content Include="Resources\iconlar\SERİAL.png" />
+    <Content Include="Resources\iconlar\SOHBET.png" />
+    <Content Include="Resources\iconlar\SİL.png" />
+    <Content Include="Resources\iconlar\TAKIM.png" />
+    <Content Include="Resources\iconlar\TAMAMLANDI.png" />
+    <Content Include="Resources\iconlar\TAMAMLANMADI.png" />
+    <Content Include="Resources\iconlar\ÇALIŞAN EKLE.png" />
+    <Content Include="Resources\iconlar\İD.png" />
+    <Content Include="Resources\iconlar\ŞİFRE.png" />
+    <Content Include="Resources\person.png" />
+    <None Include="Resources\project1.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

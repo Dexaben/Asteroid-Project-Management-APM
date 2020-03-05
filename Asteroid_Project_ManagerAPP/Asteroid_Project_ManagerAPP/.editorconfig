@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0809: Eski üye eski olmayan üyeyi geçersiz kılar
+dotnet_diagnostic.CS0809.severity = none

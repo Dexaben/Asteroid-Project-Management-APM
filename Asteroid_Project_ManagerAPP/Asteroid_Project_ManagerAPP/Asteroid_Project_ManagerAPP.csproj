@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1BD99FE8-6C15-478C-953B-A8899A007583}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Asteroid_Project_ManagerAPP</RootNamespace>
+    <AssemblyName>Asteroid_Project_ManagerAPP</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\AnaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AnaForm.Designer.cs">
+      <DependentUpon>AnaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AnaPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AnaPanel.Designer.cs">
+      <DependentUpon>AnaPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\bilgileri_guncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\bilgileri_guncelle.Designer.cs">
+      <DependentUpon>bilgileri_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan_ekle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan_ekle.Designer.cs">
+      <DependentUpon>calisan_ekle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan_giris.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan_giris.Designer.cs">
+      <DependentUpon>calisan_giris.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\calisan_kayit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\calisan_kayit.Designer.cs">
+      <DependentUpon>calisan_kayit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\deadline.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\deadline.Designer.cs">
+      <DependentUpon>deadline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\gorev_bilgileri_guncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\gorev_bilgileri_guncelle.Designer.cs">
+      <DependentUpon>gorev_bilgileri_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\gorev_takvim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\gorev_takvim.Designer.cs">
+      <DependentUpon>gorev_takvim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\proje_guncelle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\proje_guncelle.Designer.cs">
+      <DependentUpon>proje_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FUNCTIONS.cs" />
+    <Compile Include="Forms\gorev.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\gorev.Designer.cs">
+      <DependentUpon>gorev.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\gorev_ekle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\gorev_ekle.Designer.cs">
+      <DependentUpon>gorev_ekle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\gorev_liste.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\gorev_liste.Designer.cs">
+      <DependentUpon>gorev_liste.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\profil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\profil.Designer.cs">
+      <DependentUpon>profil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Forms\projeler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\projeler.Designer.cs">
+      <DependentUpon>projeler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\projem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\projem.Designer.cs">
+      <DependentUpon>projem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Forms\sohbet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\sohbet.Designer.cs">
+      <DependentUpon>sohbet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\team.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\team.Designer.cs">
+      <DependentUpon>team.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\projeEkleme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\projeEkleme.Designer.cs">
+      <DependentUpon>projeEkleme.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\AnaForm.resx">
+      <DependentUpon>AnaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AnaPanel.resx">
+      <DependentUpon>AnaPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\bilgileri_guncelle.resx">
+      <DependentUpon>bilgileri_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan_ekle.resx">
+      <DependentUpon>calisan_ekle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan_giris.resx">
+      <DependentUpon>calisan_giris.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\calisan_kayit.resx">
+      <DependentUpon>calisan_kayit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\deadline.resx">
+      <DependentUpon>deadline.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\gorev.resx">
+      <DependentUpon>gorev.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\gorev_bilgileri_guncelle.resx">
+      <DependentUpon>gorev_bilgileri_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\gorev_ekle.resx">
+      <DependentUpon>gorev_ekle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\gorev_liste.resx">
+      <DependentUpon>gorev_liste.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\gorev_takvim.resx">
+      <DependentUpon>gorev_takvim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\profil.resx">
+      <DependentUpon>profil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\projeler.resx">
+      <DependentUpon>projeler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\projem.resx">
+      <DependentUpon>projem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\proje_guncelle.resx">
+      <DependentUpon>proje_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\sohbet.resx">
+      <DependentUpon>sohbet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\team.resx">
+      <DependentUpon>team.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\projeEkleme.resx">
+      <DependentUpon>projeEkleme.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include=".editorconfig" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\235-2357327_location-arithmetic-horizontal-horizontal-solid-black-line-hd.png" />
+    <Content Include="Resources\iconlar\default_worker_image.jpg" />
+    <Content Include="Resources\iconlar\default_department_image.jpg" />
+    <Content Include="Resources\iconlar\default_task_image.jpg" />
+    <Content Include="Resources\iconlar\default_project_image.jpg" />
+    <Content Include="Resources\iconlar\default_company_image.jpg" />
+    <Content Include="Resources\images.jpg" />
+    <Content Include="Resources\asteroidstudiosPNG.png" />
+    <Content Include="Resources\iconlar\ACİL.png" />
+    <Content Include="Resources\iconlar\ADMİN PANEL.png" />
+    <Content Include="Resources\iconlar\BAŞLANGIÇ TARİHİ.png" />
+    <Content Include="Resources\iconlar\BİTİŞ TARİHİİ.png" />
+    <Content Include="Resources\iconlar\CİNSİYET.png" />
+    <Content Include="Resources\iconlar\DEPARTMAN EKLE.png" />
+    <Content Include="Resources\iconlar\DETAİL.png" />
+    <Content Include="Resources\iconlar\DURUM AŞAMASI.png" />
+    <Content Include="Resources\iconlar\GÖREV%28DEADLİNE%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28EKLE%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28LİSTELE%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28TAKVİM%29.png" />
+    <Content Include="Resources\iconlar\GÖREV%28ÇİZELGE%29.png" />
+    <Content Include="Resources\iconlar\GÖREVLER.png" />
+    <Content Include="Resources\iconlar\GÖREVİ BİTİR.png" />
+    <Content Include="Resources\iconlar\GÜNCELLE.png" />
+    <Content Include="Resources\iconlar\GİRİŞYAP.png" />
+    <Content Include="Resources\iconlar\KAYDOL.png" />
+    <Content Include="Resources\iconlar\KULLANICI PANEL.png" />
+    <Content Include="Resources\iconlar\LOG.png" />
+    <Content Include="Resources\iconlar\MAİL.png" />
+    <Content Include="Resources\iconlar\ONAYLI%28ÇALIŞAN%29.png" />
+    <Content Include="Resources\iconlar\ONAYSIZ%28ÇALIŞAN%29.png" />
+    <Content Include="Resources\iconlar\POZİSYON.png" />
+    <Content Include="Resources\iconlar\PROJE EKLE.png" />
+    <Content Include="Resources\iconlar\PROJE TAKIMI.png" />
+    <Content Include="Resources\iconlar\PROJE YÖNETİCİSİ.png" />
+    <Content Include="Resources\iconlar\PROJELER.png" />
+    <Content Include="Resources\iconlar\PROJEYE GİR.png" />
+    <Content Include="Resources\iconlar\RAPORLAMA.png" />
+    <Content Include="Resources\iconlar\SERİAL.png" />
+    <Content Include="Resources\iconlar\SOHBET.png" />
+    <Content Include="Resources\iconlar\SİL.png" />
+    <Content Include="Resources\iconlar\TAKIM.png" />
+    <Content Include="Resources\iconlar\TAMAMLANDI.png" />
+    <Content Include="Resources\iconlar\TAMAMLANMADI.png" />
+    <Content Include="Resources\iconlar\ÇALIŞAN EKLE.png" />
+    <Content Include="Resources\iconlar\İD.png" />
+    <Content Include="Resources\iconlar\ŞİFRE.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
