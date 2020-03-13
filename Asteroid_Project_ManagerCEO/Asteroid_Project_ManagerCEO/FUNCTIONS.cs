@@ -44,8 +44,7 @@ namespace Asteroid_Project_ManagerCEO
         /// <returns></returns>
         public SqlConnection SQL_BAGLAN(SqlConnection sql)
         {
-            if (Environment.MachineName == "DESKTOP-0K6IBL3") sql = new SqlConnection("Data Source=DESKTOP-0K6IBL3\\SQLEXPRESS;Initial Catalog=APM_DATABASE;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            else sql = new SqlConnection("Data Source=DESKTOP-G9JCH3G;Initial Catalog=APM_DATABASE;Integrated Security=True");
+            sql = new SqlConnection("Data Source=25.3.143.231;Initial Catalog=APM_DATABASE;Persist Security Info=True;User ID=admin;Password=1234");
             return sql;
         }
         /// <summary>
