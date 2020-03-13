@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
-
 namespace Asteroid_Project_ManagerAPP
 {
     public partial class FUNCTIONS //SQL FUNCTIONS
@@ -33,14 +32,13 @@ namespace Asteroid_Project_ManagerAPP
                 sqlCommand.Connection = sqlBaglan;
                 sqlCommand.ExecuteNonQuery();
             }
-            catch {  DURUM_LABEL(hata_mesaji, hata_color, hata_gosterim_sure); return false; }
+            catch { DURUM_LABEL(hata_mesaji, hata_color, hata_gosterim_sure); return false; }
             finally { if (sqlBaglan != null) sqlBaglan.Close(); }
             return true;
         }
         public SqlConnection SQL_BAGLAN(SqlConnection sql)
         {
-            if (Environment.MachineName == "DEXABENPC") sql = new SqlConnection("Data Source=DEXABENPC\\SQLEXPRESS;Initial Catalog=APM_DATABASE;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            else sql = new SqlConnection("Data Source=DESKTOP-G9JCH3G;Initial Catalog=APM_DATABASE;Integrated Security=True");
+            sql = new SqlConnection("Data Source=25.3.143.231;Initial Catalog=APM_DATABASE;Persist Security Info=True;User ID=admin;Password=1234");
             return sql;
         }
         /// <summary>
@@ -278,8 +276,8 @@ namespace Asteroid_Project_ManagerAPP
         }
         public System.Drawing.Color RANDOM_COLOR()
         {
-                Random rnd = new Random();
-            System.Drawing.Color randomColor  = System.Drawing.Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+            Random rnd = new Random();
+            System.Drawing.Color randomColor = System.Drawing.Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
             return randomColor;
         }
         public DateTime DATETIME_CONVERTER(string DT)
@@ -347,7 +345,7 @@ namespace Asteroid_Project_ManagerAPP
             if ((now_date - dt).Days == 1) tarih = "Dün " + (now_date - dt).Hours + " saat önce";
             return tarih;
         }
-        }
+    }
     public partial class FUNCTIONS //ŞİFRELEME İŞLEMLERİ
     {
 
@@ -397,200 +395,200 @@ namespace Asteroid_Project_ManagerAPP
 
     }
     public partial class FUNCTIONS //EXTRAS
+    {
+
+        /// <summary>
+        /// Gönderilen resmi gosteriri.
+        /// </summary>
+        public void OpenImage(System.Drawing.Image image)
         {
+            string myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            Random rnd = new Random();
+            int x = rnd.Next(1, 9999999);
+            string myPath = System.IO.Path.Combine(myPictures, x + ".jpg");
+            image.Save(myPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            System.Diagnostics.Process photoViewer = new System.Diagnostics.Process();
+            photoViewer.StartInfo.FileName = myPath;
+            photoViewer.Start();
+        }
 
-            /// <summary>
-            /// Gönderilen resmi gosteriri.
-            /// </summary>
-            public void OpenImage(System.Drawing.Image image)
+        /// <summary>
+        /// Gönderilen resmin çözünürlüğünü düşürür.
+        /// Kullanım : { Bitmap temp_image =(Bitmap)gönderilen_resim;    
+        ///                 Bitmap bp = ResizeImage((Bitmap)gönderilen_resim, new Size((int)(0.5f * mg.Width), (int)(0.5f * mg.Height)));
+        ///                         gönderilen_resim = (Image)bp.SetResolution(temp_image.HorizontalResolution, temp_image.VerticalResolution);
+        /// </summary>
+        public System.Drawing.Bitmap ResizeImage(System.Drawing.Bitmap mg, System.Drawing.Size newSize)
+        {
+            double ratio = 0d;
+            double myThumbWidth = 0d;
+            double myThumbHeight = 0d;
+            int x = 0;
+            int y = 0;
+            System.Drawing.Bitmap bp;
+            if ((mg.Width / Convert.ToDouble(newSize.Width)) > (mg.Height /
+            Convert.ToDouble(newSize.Height)))
+                ratio = Convert.ToDouble(mg.Width) / Convert.ToDouble(newSize.Width);
+            else
+                ratio = Convert.ToDouble(mg.Height) / Convert.ToDouble(newSize.Height);
+            myThumbHeight = Math.Ceiling(mg.Height / ratio);
+            myThumbWidth = Math.Ceiling(mg.Width / ratio);
+            System.Drawing.Size thumbSize = new System.Drawing.Size((int)myThumbWidth, (int)myThumbHeight);
+            bp = new System.Drawing.Bitmap(newSize.Width, newSize.Height);
+            x = (newSize.Width - thumbSize.Width) / 2;
+            y = (newSize.Height - thumbSize.Height);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bp);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, thumbSize.Width, thumbSize.Height);
+            g.DrawImage(mg, rect, 0, 0, mg.Width, mg.Height, System.Drawing.GraphicsUnit.Pixel);
+            return bp;
+        }
+        /// <summary>
+        /// Gönderilen resmi byte dizesine cevirir.
+        /// </summary>
+        /// <param name="imageToConvert">donusturulecek resim</param>
+        /// <param name="formatOfImage">donusturulecek format</param>
+        public byte[] CONVERT_IMAGE_TO_BYTE_ARRAY(System.Drawing.Image imageToConvert, System.Drawing.Imaging.ImageFormat formatOfImage)
+        {
+            byte[] Ret = null;
+            try
             {
-                string myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                Random rnd = new Random();
-                int x = rnd.Next(1, 9999999);
-                string myPath = System.IO.Path.Combine(myPictures, x+".jpg");
-                image.Save(myPath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                System.Diagnostics.Process photoViewer = new System.Diagnostics.Process();
-                photoViewer.StartInfo.FileName = myPath;
-                photoViewer.Start();
-            }
-
-            /// <summary>
-            /// Gönderilen resmin çözünürlüğünü düşürür.
-            /// Kullanım : { Bitmap temp_image =(Bitmap)gönderilen_resim;    
-            ///                 Bitmap bp = ResizeImage((Bitmap)gönderilen_resim, new Size((int)(0.5f * mg.Width), (int)(0.5f * mg.Height)));
-            ///                         gönderilen_resim = (Image)bp.SetResolution(temp_image.HorizontalResolution, temp_image.VerticalResolution);
-            /// </summary>
-            public System.Drawing.Bitmap ResizeImage(System.Drawing.Bitmap mg, System.Drawing.Size newSize)
-            {
-                double ratio = 0d;
-                double myThumbWidth = 0d;
-                double myThumbHeight = 0d;
-                int x = 0;
-                int y = 0;
-                System.Drawing.Bitmap bp;
-                if ((mg.Width / Convert.ToDouble(newSize.Width)) > (mg.Height /
-                Convert.ToDouble(newSize.Height)))
-                    ratio = Convert.ToDouble(mg.Width) / Convert.ToDouble(newSize.Width);
-                else
-                    ratio = Convert.ToDouble(mg.Height) / Convert.ToDouble(newSize.Height);
-                myThumbHeight = Math.Ceiling(mg.Height / ratio);
-                myThumbWidth = Math.Ceiling(mg.Width / ratio);
-                System.Drawing.Size thumbSize = new System.Drawing.Size((int)myThumbWidth, (int)myThumbHeight);
-                bp = new System.Drawing.Bitmap(newSize.Width, newSize.Height);
-                x = (newSize.Width - thumbSize.Width) / 2;
-                y = (newSize.Height - thumbSize.Height);
-                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bp);
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-                System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, thumbSize.Width, thumbSize.Height);
-                g.DrawImage(mg, rect, 0, 0, mg.Width, mg.Height, System.Drawing.GraphicsUnit.Pixel);
-                return bp;
-            }
-            /// <summary>
-            /// Gönderilen resmi byte dizesine cevirir.
-            /// </summary>
-            /// <param name="imageToConvert">donusturulecek resim</param>
-            /// <param name="formatOfImage">donusturulecek format</param>
-            public byte[] CONVERT_IMAGE_TO_BYTE_ARRAY(System.Drawing.Image imageToConvert, System.Drawing.Imaging.ImageFormat formatOfImage)
-            {
-                byte[] Ret = null;
-                try
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
                 {
-                    using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
-                    {
-                        imageToConvert.Save(ms, formatOfImage);
-                        Ret = ms.ToArray();
-                    }
-                }
-                catch { DURUM_LABEL("Hata:Resim dönüştürülemedi.", System.Drawing.Color.Orange, 3500); }
-                return Ret;
-            }
-            /// <summary>
-            /// Gönderilen byte dizesini resme çevirir.
-            /// </summary>
-            /// <param name="veri">donusturulecek byte verisi</param>
-            public System.Drawing.Image CONVERT_BYTE_ARRAY_TO_IMAGE(object veri)
-            {
-                Byte[] byteBLOBData = new Byte[0];
-                byteBLOBData = (Byte[])(veri);
-                System.IO.MemoryStream stmBLOBData = new System.IO.MemoryStream(byteBLOBData);
-                return System.Drawing.Image.FromStream(stmBLOBData);
-            }
-            public string OPENFILEIMAGE()
-            {
-                using (System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog() { Filter = "JPEG|*.jpg", ValidateNames = true, Multiselect = false })
-                {
-                    if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        return ofd.FileName;
-                    }
-                    return null;
+                    imageToConvert.Save(ms, formatOfImage);
+                    Ret = ms.ToArray();
                 }
             }
-            /// <summary>
-            /// 0 ile 100 arasında değerlere göre kırmızıdan yeşile renk verir.
-            /// </summary>
-            public System.Drawing.Color RED_YELLOW_GREEN_100(double percentage) //red green yellow color picker
+            catch { DURUM_LABEL("Hata:Resim dönüştürülemedi.", System.Drawing.Color.Orange, 3500); }
+            return Ret;
+        }
+        /// <summary>
+        /// Gönderilen byte dizesini resme çevirir.
+        /// </summary>
+        /// <param name="veri">donusturulecek byte verisi</param>
+        public System.Drawing.Image CONVERT_BYTE_ARRAY_TO_IMAGE(object veri)
+        {
+            Byte[] byteBLOBData = new Byte[0];
+            byteBLOBData = (Byte[])(veri);
+            System.IO.MemoryStream stmBLOBData = new System.IO.MemoryStream(byteBLOBData);
+            return System.Drawing.Image.FromStream(stmBLOBData);
+        }
+        public string OPENFILEIMAGE()
+        {
+            using (System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog() { Filter = "JPEG|*.jpg", ValidateNames = true, Multiselect = false })
             {
-                if (percentage >= 0 && percentage <= 255)
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    var red = (percentage > 50 ? 1 - 2 * (percentage - 50) / 100.0 : 1.0) * 255;
-                    var green = (percentage > 50 ? 1.0 : 2 * percentage / 100.0) * 255;
-                    var blue = 0.0;
-                    System.Drawing.Color result = System.Drawing.Color.FromArgb((int)red, (int)green, (int)blue);
-                    return result;
+                    return ofd.FileName;
                 }
-                return System.Drawing.Color.White;
+                return null;
             }
         }
-        public partial class FUNCTIONS
+        /// <summary>
+        /// 0 ile 100 arasında değerlere göre kırmızıdan yeşile renk verir.
+        /// </summary>
+        public System.Drawing.Color RED_YELLOW_GREEN_100(double percentage) //red green yellow color picker
         {
-            /// <summary>
-            /// ana form durum labelini suresiz olarak degistirir.
-            /// </summary>
-            public void DURUM_LABEL(string durum_Text, System.Drawing.Color durum_Renk)
+            if (percentage >= 0 && percentage <= 255)
             {
-                a = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
-                a.toolStripLabel1.Text = durum_Text;
-                a.toolStripLabel1.ForeColor = durum_Renk;
+                var red = (percentage > 50 ? 1 - 2 * (percentage - 50) / 100.0 : 1.0) * 255;
+                var green = (percentage > 50 ? 1.0 : 2 * percentage / 100.0) * 255;
+                var blue = 0.0;
+                System.Drawing.Color result = System.Drawing.Color.FromArgb((int)red, (int)green, (int)blue);
+                return result;
             }
-            bool durum_panel = true;
-            /// <summary>
-            /// ana form durum labelini sureli olarak degistirir.
-            /// </summary>
-            /// <param name="durum_Gosterim_Suresi">milisaniye</param>
-            public void DURUM_LABEL(string durum_Text, System.Drawing.Color durum_Renk, int durum_Gosterim_Suresi)
-            {
-                a = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
-                if (durum_panel)
-                {
-                    durum_panel = false;
-                    string temp_text = a.toolStripLabel1.Text;
-                    System.Drawing.Color temp_color = a.toolStripLabel1.ForeColor;
-                    a.toolStripLabel1.Text = durum_Text;
-                    a.toolStripLabel1.ForeColor = durum_Renk;
-                    WaitSomeTime(durum_Gosterim_Suresi, temp_text, temp_color);
-                }
-            }
-            public async void WaitSomeTime(int delay, string tmptxt, System.Drawing.Color tmpclr)
-            {
-                await System.Threading.Tasks.Task.Delay(delay);
-                durum_panel = true;
-                a.toolStripLabel1.Text = tmptxt;
-                a.toolStripLabel1.ForeColor = tmpclr;
-            }
-            string sonGirilenForm;
-            /// <summary>
-            /// acilacak formu ANAFROM MDI'sında acar formlar_Kapatilsinmi true ise acık olan tüm formları kapatır.
-            /// </summary>
-            public void FORM_AC(System.Windows.Forms.Form acilacak_Form, bool formlar_Kapatilsinmi)
-            {
-                a = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
-                if (sonGirilenForm == acilacak_Form.Name && System.Windows.Forms.Application.OpenForms[acilacak_Form.Name] != null)
-                {
-                    DURUM_LABEL("Durum:Zaten açmak istediğiniz penceredesiniz.", System.Drawing.Color.Cyan, 1000);
-                }
-                else
-                {
-                    if (formlar_Kapatilsinmi)
-                    {
-                        for (int i = 0; i < a.MdiChildren.Length; i++)
-                        {
-                            a.BeginInvoke(new System.Windows.Forms.MethodInvoker(a.MdiChildren[i].Close));
-                        }
-                    }
-                    acilacak_Form.MdiParent = System.Windows.Forms.Application.OpenForms["AnaForm"];
-                    acilacak_Form.Show();
-                    if (acilacak_Form.Name == new profil().Name || acilacak_Form.Name == new team().Name || acilacak_Form.Name == new sohbet().Name || acilacak_Form.Name == new projeler().Name)
-                    {
-                        sonGirilenForm = acilacak_Form.Name;
-                    }
-                    if (acilacak_Form.Name == new gorev_liste().Name || acilacak_Form.Name == new gorev_ekle().Name || acilacak_Form.Name == new Forms.gorev_takvim().Name || acilacak_Form.Name == new Forms.deadline().Name)
-                    {
-                        a.menuStrip2.Visible = true;
-                    }
-                    else a.menuStrip2.Visible = false;
-                }
-            }
-            public void SYNC()
-            {
-                a.panel_tarih.Text = GET_SERVER_DATE().Date.ToString("dddd, dd MMMM yyyy");
-                a.timer_baslangic = DateTime.Now - GET_SERVER_DATE();
-            }
-            public DateTime GET_SERVER_DATE()
-            {
-                DateTime dt = new DateTime();
-                SqlCommand komut = new SqlCommand("SELECT GETDATE()AS server_tarih");
-                System.Data.DataTable table = SQL_SELECT_DATATABLE(komut, "Hata:Sunucu zamanı alınamadı.", System.Drawing.Color.Red, 4000);
-                if (table != null)
-                {
-                    System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
-                    dt = DateTime.ParseExact(table.Rows[0]["server_tarih"].ToString(), "dd.MM.yyyy HH:mm:ss", provider);
-                    return dt;
-                }
-                return dt;
-            }
-
+            return System.Drawing.Color.White;
         }
     }
+    public partial class FUNCTIONS
+    {
+        /// <summary>
+        /// ana form durum labelini suresiz olarak degistirir.
+        /// </summary>
+        public void DURUM_LABEL(string durum_Text, System.Drawing.Color durum_Renk)
+        {
+            a = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
+            a.toolStripLabel1.Text = durum_Text;
+            a.toolStripLabel1.ForeColor = durum_Renk;
+        }
+        bool durum_panel = true;
+        /// <summary>
+        /// ana form durum labelini sureli olarak degistirir.
+        /// </summary>
+        /// <param name="durum_Gosterim_Suresi">milisaniye</param>
+        public void DURUM_LABEL(string durum_Text, System.Drawing.Color durum_Renk, int durum_Gosterim_Suresi)
+        {
+            a = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
+            if (durum_panel)
+            {
+                durum_panel = false;
+                string temp_text = a.toolStripLabel1.Text;
+                System.Drawing.Color temp_color = a.toolStripLabel1.ForeColor;
+                a.toolStripLabel1.Text = durum_Text;
+                a.toolStripLabel1.ForeColor = durum_Renk;
+                WaitSomeTime(durum_Gosterim_Suresi, temp_text, temp_color);
+            }
+        }
+        public async void WaitSomeTime(int delay, string tmptxt, System.Drawing.Color tmpclr)
+        {
+            await System.Threading.Tasks.Task.Delay(delay);
+            durum_panel = true;
+            a.toolStripLabel1.Text = tmptxt;
+            a.toolStripLabel1.ForeColor = tmpclr;
+        }
+        string sonGirilenForm;
+        /// <summary>
+        /// acilacak formu ANAFROM MDI'sında acar formlar_Kapatilsinmi true ise acık olan tüm formları kapatır.
+        /// </summary>
+        public void FORM_AC(System.Windows.Forms.Form acilacak_Form, bool formlar_Kapatilsinmi)
+        {
+            a = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
+            if (sonGirilenForm == acilacak_Form.Name && System.Windows.Forms.Application.OpenForms[acilacak_Form.Name] != null)
+            {
+                DURUM_LABEL("Durum:Zaten açmak istediğiniz penceredesiniz.", System.Drawing.Color.Cyan, 1000);
+            }
+            else
+            {
+                if (formlar_Kapatilsinmi)
+                {
+                    for (int i = 0; i < a.MdiChildren.Length; i++)
+                    {
+                        a.BeginInvoke(new System.Windows.Forms.MethodInvoker(a.MdiChildren[i].Close));
+                    }
+                }
+                acilacak_Form.MdiParent = System.Windows.Forms.Application.OpenForms["AnaForm"];
+                acilacak_Form.Show();
+                if (acilacak_Form.Name == new profil().Name || acilacak_Form.Name == new team().Name || acilacak_Form.Name == new sohbet().Name || acilacak_Form.Name == new projeler().Name)
+                {
+                    sonGirilenForm = acilacak_Form.Name;
+                }
+                if (acilacak_Form.Name == new gorev_liste().Name || acilacak_Form.Name == new gorev_ekle().Name || acilacak_Form.Name == new Forms.gorev_takvim().Name || acilacak_Form.Name == new Forms.deadline().Name)
+                {
+                    a.menuStrip2.Visible = true;
+                }
+                else a.menuStrip2.Visible = false;
+            }
+        }
+        public void SYNC()
+        {
+            a.panel_tarih.Text = GET_SERVER_DATE().Date.ToString("dddd, dd MMMM yyyy");
+            a.timer_baslangic = DateTime.Now - GET_SERVER_DATE();
+        }
+        public DateTime GET_SERVER_DATE()
+        {
+            DateTime dt = new DateTime();
+            SqlCommand komut = new SqlCommand("SELECT GETDATE()AS server_tarih");
+            System.Data.DataTable table = SQL_SELECT_DATATABLE(komut, "Hata:Sunucu zamanı alınamadı.", System.Drawing.Color.Red, 4000);
+            if (table != null)
+            {
+                System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
+                dt = DateTime.ParseExact(table.Rows[0]["server_tarih"].ToString(), "dd.MM.yyyy HH:mm:ss", provider);
+                return dt;
+            }
+            return dt;
+        }
+
+    }
+}
