@@ -7,7 +7,6 @@ namespace Asteroid_Project_ManagerAPP
 {
     public partial class calisan_giris : Form
     {
-        FUNCTIONS F = new FUNCTIONS();
         SqlCommand komut = new SqlCommand();
         System.Data.DataTable table = new System.Data.DataTable();
         public calisan_giris()
@@ -20,7 +19,8 @@ namespace Asteroid_Project_ManagerAPP
             hata_label.Text = "";
             hata_label.ForeColor = Color.Red;
             komut = new SqlCommand("SELECT worker_id,worker_image,worker_name,worker_onay FROM WORKERS");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             System.Data.DataTable dataTable = new System.Data.DataTable();
             dataTable.Columns.Add("Çalışan ID", typeof(int));
             dataTable.Columns.Add("Çalışan Resmi", typeof(Image));
@@ -28,7 +28,7 @@ namespace Asteroid_Project_ManagerAPP
             dataTable.Columns.Add("Çalışan Onay", typeof(bool));
             for(int i = 0;i<table.Rows.Count;i++)
             {
-                dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["worker_id"]), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]), table.Rows[i]["worker_name"].ToString(), (bool)table.Rows[i]["worker_onay"]);
+                dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["worker_id"]), Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]), table.Rows[i]["worker_name"].ToString(), (bool)table.Rows[i]["worker_onay"]);
             }
             calisan_datagridview.DataSource = dataTable;
             calisan_datagridview.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -68,12 +68,13 @@ namespace Asteroid_Project_ManagerAPP
         }
         private void button1_Click_1(object sender, EventArgs e) //GİRİŞ YAP
         {
-                komut = new SqlCommand("SELECT worker_name,worker_password,worker_onay,worker_id FROM WORKERS WHERE worker_name=@wrk_name");
-                komut.Parameters.AddWithValue("@wrk_name", kullanici_adi_textBox.Text);
-            table = F.SQL_SELECT_DATATABLE(komut, "Kullanıcı Adı veya Şifre Yanlış!", Color.Red, 4000);
+            komut = new SqlCommand("SELECT worker_name,worker_password,worker_onay,worker_id FROM WORKERS WHERE worker_name=@wrk_name");
+            komut.Parameters.AddWithValue("@wrk_name", kullanici_adi_textBox.Text);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Kullanıcı Adı veya Şifre Yanlış!", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if(table.Rows.Count !=0)
             {
-                if (table.Rows[0]["worker_name"].ToString() == kullanici_adi_textBox.Text && F.Decrypt(table.Rows[0]["worker_password"].ToString()) == sifre_textBox.Text)
+                if (table.Rows[0]["worker_name"].ToString() == kullanici_adi_textBox.Text && Scripts.Tools.CryptographyFunctions.Decrypt(table.Rows[0]["worker_password"].ToString()) == sifre_textBox.Text)
                 {
                     if ((bool)table.Rows[0]["worker_onay"] == true)
                     {
@@ -83,8 +84,8 @@ namespace Asteroid_Project_ManagerAPP
                             AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
                             if (a.toolStrip1 != null)
                             {
-                                F.DURUM_LABEL("Durum: Giriş yapıldı. Son giriş zamanı:" + F.GET_SERVER_DATE().ToString(), Color.Green);
-                                F.LOG_ENTER(Convert.ToInt32(table.Rows[0]["worker_id"]), F.WORKER_NAME_BY_WORKER_ID(Convert.ToInt32(table.Rows[0]["worker_id"])) + " adlı çalışan uygulamaya giriş yaptı.", F.GET_SERVER_DATE());
+                                Scripts.Form.Status.STATUS_LABEL("Durum: Giriş yapıldı. Son giriş zamanı:" + Scripts.SQL.SqlQueries.GET_SERVER_DATE().ToString(), Color.Green);
+                               Scripts.Tools.LogTools.LOG_ENTER(Convert.ToInt32(table.Rows[0]["worker_id"]), Scripts.SQL.SqlQueries.WORKER_NAME_BY_WORKER_ID(Convert.ToInt32(table.Rows[0]["worker_id"])) + " adlı çalışan uygulamaya giriş yaptı.", Scripts.SQL.SqlQueries.GET_SERVER_DATE());
                             }
                             if (beni_Hatirla_checkBox.Checked)
                             {
@@ -100,7 +101,7 @@ namespace Asteroid_Project_ManagerAPP
                             }
                             a.worker_id = Convert.ToInt32(table.Rows[0]["worker_id"]);
                             a.ANAFORM_BILGILER_GUNCELLE();
-                            F.FORM_AC(new AnaPanel(), true);
+                            Scripts.Form.FormManager.FORM_AC(new AnaPanel(), true);
                         }
                         else
                         {
@@ -135,7 +136,7 @@ namespace Asteroid_Project_ManagerAPP
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
-            F.FORM_AC(new calisan_kayit(), true);
+           Scripts.Form.FormManager.FORM_AC(new calisan_kayit(), true);
         }
         private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {

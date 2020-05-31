@@ -18,7 +18,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             InitializeComponent();
             this.AcceptButton = guncelle;
         }
-        FUNCTIONS F = new FUNCTIONS();
+   
         SqlCommand komut = new SqlCommand();
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
@@ -27,7 +27,10 @@ namespace Asteroid_Project_ManagerAPP.Forms
             label1.Text = "";
             label1.ForeColor = Color.Red;
             komut = new SqlCommand("SELECT worker_jobs FROM JOBS");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Pozisyon bilgileri veritabanından çekilemedi.", Color.Red, 2000);
+            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon bilgileri veritabanından çekilemedi.", Color.Red, 2000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
+
             if (table.Rows.Count != 0)
             {
                 pozisyon_comboBox.Enabled = true;
@@ -42,15 +45,17 @@ namespace Asteroid_Project_ManagerAPP.Forms
             }
             komut = new SqlCommand("SELECT worker_name,worker_image,worker_gender,worker_mail FROM WORKERS WHERE worker_id=@WORKER_ID");
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
+            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+           sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
+            table =Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if(table != null)
             {
                 if(table.Rows.Count !=0)
                 {
-                    gorev_Resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["worker_image"]);
+                    gorev_Resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["worker_image"]);
                     calisan_ismi.Text = table.Rows[0]["worker_name"].ToString();
                     pozisyonlarListBox.Items.Clear();
-                    pozisyonlarListBox.Items.AddRange(F.WORKER_ROLE_CALL_BY_ID(a.worker_id));
+                    pozisyonlarListBox.Items.AddRange(Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(a.worker_id));
                     if(table.Rows[0]["worker_gender"].ToString()=="Erkek")
                     {
                         erkek_radioButton.Checked = true;
@@ -67,7 +72,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
         }
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
-            F.OpenImage(gorev_Resim.Image);
+            Scripts.Tools.ImageTools.OpenImage(gorev_Resim.Image);
         }
         void Kaydet()
         {
@@ -86,14 +91,19 @@ namespace Asteroid_Project_ManagerAPP.Forms
             string cinsiyet = "";
             if (kadin_radioButton.Checked) { komut.Parameters.AddWithValue("@WORKER_GENDER", "Kadın"); cinsiyet = "Kadın"; }
             else { komut.Parameters.AddWithValue("@WORKER_GENDER", "Erkek"); cinsiyet = "Erkek"; }
-            komut.Parameters.Add("@WORKER_IMAGE", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+            komut.Parameters.Add("@WORKER_IMAGE", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             komut.Parameters.AddWithValue("@WORKER_ONAY", Convert.ToBoolean(0));
-            if (F.SQL_EXECUTENONQUERY(komut, "Hata:Bilgiler veritabanına aktarılırken sorun oluştu.", Color.Red, 3000))
+            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Bilgiler veritabanına aktarılırken sorun oluştu.", Color.Red, 3000);
+            if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand))
             {
                 string positions = "";
                 komut = new SqlCommand("DELETE FROM WORKER_POSITIONS WHERE worker_id=@WORKER_ID");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-                if(F.SQL_EXECUTENONQUERY(komut,"Hata:Çalışan pozisyonları güncellenemedi.",Color.Red,4000))
+                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 4000);
+
+                if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand))
                 {
 
                     for(int i = 0;i<pozisyonlarListBox.Items.Count;i++)
@@ -102,10 +112,12 @@ namespace Asteroid_Project_ManagerAPP.Forms
                         komut = new SqlCommand("INSERT INTO WORKER_POSITIONS(worker_id,worker_job) VALUES(@WORKER_ID,@WORKER_JOB)");
                         komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
                         komut.Parameters.AddWithValue("@WORKER_JOB", pozisyonlarListBox.Items[i].ToString());
-                        F.SQL_EXECUTENONQUERY(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 3000);
+                        komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                        sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 3000);
+                        Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand);
                     }
                     Application.Restart();
-                    F.LOG_ENTER(a.worker_id, F.WORKER_NAME_BY_WORKER_ID(a.worker_id) + " adlı çalışan bilgilerini güncelledi. (isim:" + calisan_ismi.Text + ",mail:" + calisan_Mail.Text + ",cinsiyet:" + cinsiyet + ",resim:" + resim_guncellendi + ",pozisyonlar:" + positions + ")", F.GET_SERVER_DATE());
+                    Scripts.Tools.LogTools.LOG_ENTER(a.worker_id, Scripts.SQL.SqlQueries.WORKER_NAME_BY_WORKER_ID(a.worker_id) + " adlı çalışan bilgilerini güncelledi. (isim:" + calisan_ismi.Text + ",mail:" + calisan_Mail.Text + ",cinsiyet:" + cinsiyet + ",resim:" + resim_guncellendi + ",pozisyonlar:" + positions + ")",Scripts.SQL.SqlQueries.GET_SERVER_DATE());
 
                 }
 
@@ -118,7 +130,9 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 komut = new SqlCommand("SELECT worker_mail,(SELECT W.worker_mail FROM WORKERS W WHERE W.worker_id=@WORKER_ID)AS my_mail  FROM WORKERS");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan mail bilgileri çekilemedi.", Color.Red, 3000);
+                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan mail bilgileri çekilemedi.", Color.Red, 3000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                 if (table != null)
                 {
                     if (table.Rows.Count != 0)
@@ -147,7 +161,10 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 komut = new SqlCommand("SELECT worker_name,(SELECT W.worker_name FROM WORKERS W WHERE W.worker_id=@WORKER_ID)AS my_name FROM WORKERS");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Kullanıcı isimleri veritabanından alınamadı.", Color.Red, 2000);
+                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Kullanıcı isimleri veritabanından alınamadı.", Color.Red, 2000);
+
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                 if (table.Rows.Count != 0)
                 {
                     for (int i = 0; i < table.Rows.Count; i++)
@@ -196,7 +213,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
         private void button2_Click(object sender, EventArgs e)
         {
 
-                fileName = F.OPENFILEIMAGE();
+                fileName = Scripts.Tools.ImageTools.OPENFILEIMAGE();
             if(fileName != null)
                 gorev_Resim.Image = Image.FromFile(fileName);
 
@@ -243,7 +260,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            F.FORM_AC(new profil(), true);
+            Scripts.Form.FormManager.FORM_AC(new profil(), true);
         }
 
         private void button5_Click(object sender, EventArgs e)

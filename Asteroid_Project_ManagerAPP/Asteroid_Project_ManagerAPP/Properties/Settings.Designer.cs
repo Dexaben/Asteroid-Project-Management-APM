@@ -26,24 +26,14 @@ namespace Asteroid_Project_ManagerAPP.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-G9JCH3G;Initial Catalog=APM_DATABASE;Integrated Security=True" +
+        [global::System.Configuration.DefaultSettingValueAttribute("" +
             "")]
         public string APM_DATABASEConnectionString {
             get {
                 return ((string)(this["APM_DATABASEConnectionString"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=APM_DATABASE;Integrated Security=True")]
-        public string APM_DATABASEConnectionString1 {
-            get {
-                return ((string)(this["APM_DATABASEConnectionString1"]));
-            }
-        }
-        
+       
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]

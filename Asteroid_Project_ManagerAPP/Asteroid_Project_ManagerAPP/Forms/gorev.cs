@@ -21,7 +21,6 @@ namespace Asteroid_Project_ManagerAPP
             this.AcceptButton = gorev_durumunu_guncelle;
         }
 
-        FUNCTIONS F = new FUNCTIONS();
         SqlCommand komut = new SqlCommand();
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
@@ -30,7 +29,8 @@ namespace Asteroid_Project_ManagerAPP
         {
             komut = new SqlCommand("SELECT  T.task_name,T.task_details,T.task_start_date,T.task_finish_date,T.task_status,T.task_urgency,(SELECT PROJECTS.project_name FROM PROJECTS WHERE(PROJECTS.project_id = T.project_id)) AS project_name,(SELECT DEPARTMENTS.department_name FROM DEPARTMENTS WHERE(DEPARTMENTS.department_id = (SELECT PROJECTS.department_id FROM PROJECTS WHERE(PROJECTS.project_id = T.project_id)))) AS department_name FROM TASKS T WHERE  T.task_id = @task_id");
             komut.Parameters.AddWithValue("@task_id", gorev_id);
-            table = F.SQL_SELECT_DATATABLE(komut,"Hata:Görev bilgileri alınırken hata oluştu.",Color.Red,2000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Görev bilgileri alınırken hata oluştu.", Color.Red, 2000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if(table.Rows.Count !=0)
             {
                 if (table.Rows[0]["task_urgency"].ToString() == "Acil") groupBox1.Visible = true;
@@ -40,8 +40,8 @@ namespace Asteroid_Project_ManagerAPP
                 gorev_departmani.Text = table.Rows[0]["department_name"].ToString();
                 gorev_textbox.Text =table.Rows[0]["task_name"].ToString();
                 gorev_detay.Text = table.Rows[0]["task_details"].ToString();
-                gorev_baslangic_tarihi.Text = F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[0]["task_start_date"].ToString());
-                gorev_bitis_tarihi.Text = F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[0]["task_finish_date"].ToString()) ;
+                gorev_baslangic_tarihi.Text = Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[0]["task_start_date"].ToString());
+                gorev_bitis_tarihi.Text = Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[0]["task_finish_date"].ToString()) ;
                 durum_Text.Text = table.Rows[0]["task_status"].ToString();
                 if (table.Rows[0]["task_status"].ToString() == "Görev Tamamlandı")
                 {
@@ -60,19 +60,21 @@ namespace Asteroid_Project_ManagerAPP
             }
             komut = new SqlCommand("SELECT task_image FROM TASK_IMAGES WHERE task_id = @TASK_ID");
             komut.Parameters.AddWithValue("@TASK_ID", gorev_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:", Color.Red, 3000);
+            sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             task_images.Clear();
             if(table != null)
             {
                 for(int i = 0;i<table.Rows.Count;i++)
                 {
-                    task_images.Add(F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["task_image"]));
+                    task_images.Add(Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["task_image"]));
                 }
                 resim_goster(0);
             }
             komut = new SqlCommand("SELECT TASK_WORKERS.worker_id,worker_name,worker_image FROM TASK_WORKERS INNER JOIN WORKERS ON TASK_WORKERS.worker_id = WORKERS.worker_id WHERE TASK_WORKERS.task_id = @TASK_ID");
             komut.Parameters.AddWithValue("@TASK_ID", gorev_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan isimleri alınırken sorun oluştu.", Color.Red, 3000);
+            sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan isimleri alınırken sorun oluştu.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Çalışan ID", typeof(int));
             dataTable.Columns.Add("Çalışan İsmi", typeof(string));
@@ -81,7 +83,7 @@ namespace Asteroid_Project_ManagerAPP
             {
                 for(int i = 0;i<table.Rows.Count;i++)
                 {
-                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["worker_id"]), table.Rows[i]["worker_name"].ToString(), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]));
+                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["worker_id"]), table.Rows[i]["worker_name"].ToString(),Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]));
                 }
             }
             dataGridView1.DataSource = dataTable;
@@ -94,9 +96,10 @@ namespace Asteroid_Project_ManagerAPP
                 komut = new SqlCommand("UPDATE TASKS SET task_status = @task_status WHERE task_id=@task_id");
                 komut.Parameters.AddWithValue("@task_id", gorev_id);
                 komut.Parameters.AddWithValue("@task_status", "Görev Tamamlandı");
-                if (F.SQL_EXECUTENONQUERY(komut, "Hata:Görev durumu güncellenemedi.", Color.Red, 3000))
+                Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Görev durumu güncellenemedi.", Color.Red, 3000);
+                if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand))
                 {
-                    F.LOG_ENTER(a.worker_id, $"{F.WORKER_NAME_BY_WORKER_ID(a.worker_id)} adlı çalışan {gorev_textbox.Text} görevinin durumunu ({durum_Text.Text} => {"Görev Tamamlandı"}) güncelledi.Görev ID:{gorev_id},Görevin Projesi:{gorev_projesi.Text}", F.GET_SERVER_DATE()) ;
+                    Scripts.Tools.LogTools.LOG_ENTER(a.worker_id, $"{Scripts.SQL.SqlQueries.WORKER_NAME_BY_WORKER_ID(a.worker_id)} adlı çalışan {gorev_textbox.Text} görevinin durumunu ({durum_Text.Text} => {"Görev Tamamlandı"}) güncelledi.Görev ID:{gorev_id},Görevin Projesi:{gorev_projesi.Text}", Scripts.SQL.SqlQueries.GET_SERVER_DATE()) ;
                     durum_Text.Text = "Görev Tamamlandı";
                     gorev_tamamla.Visible = false;
                     gorev_durumunu_guncelle.Visible = false;
@@ -119,7 +122,7 @@ namespace Asteroid_Project_ManagerAPP
                         profil_.profil_Load(profil_, null);
                 }
             }
-            else F.DURUM_LABEL("Bu görevi yönetmeye yetkiniz yok.", Color.White, 4000);
+            else Scripts.Form.Status.STATUS_LABEL("Bu görevi yönetmeye yetkiniz yok.", Color.White, 4000);
           
         }
         bool GOREV_CALISANLARINDANMIYIM(int worker_id)
@@ -127,13 +130,14 @@ namespace Asteroid_Project_ManagerAPP
             komut = new SqlCommand("SELECT COUNT(task_id)AS task_count,(SELECT TASKS.task_finish_date FROM TASKS WHERE TASKS.task_id=@TASK_ID)AS task_finish_date FROM TASK_WORKERS WHERE  task_id = @TASK_ID AND worker_id = @WORKER_ID");
             komut.Parameters.AddWithValue("@TASK_ID", gorev_id);
             komut.Parameters.AddWithValue("@WORKER_ID",a.worker_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgisi alınamadı.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgisi alınamadı.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table != null)
             {
                 if (Convert.ToInt32(table.Rows[0][0]) != 0)
                 {
-                    DateTime dt = F.DATETIME_CONVERTER(table.Rows[0][1].ToString());
-                    if (dt >= F.GET_SERVER_DATE())
+                    DateTime dt = Scripts.Tools.DateFunctions.DATETIME_CONVERTER(table.Rows[0][1].ToString());
+                    if (dt >= Scripts.SQL.SqlQueries.GET_SERVER_DATE())
                     {
                         return true;
                     }
@@ -156,9 +160,10 @@ namespace Asteroid_Project_ManagerAPP
                     komut = new SqlCommand("UPDATE TASKS SET task_status = @task_status WHERE task_id=@task_id");
                     komut.Parameters.AddWithValue("@task_id", gorev_id);
                     komut.Parameters.AddWithValue("@task_status", t);
-                    if (F.SQL_EXECUTENONQUERY(komut, "Hata:Görev durumu güncellenemedi.", Color.Red, 3000))
+                    Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Görev durumu güncellenemedi.", Color.Red, 3000);
+                    if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand))
                     {
-                        F.LOG_ENTER(a.worker_id, $"{F.WORKER_NAME_BY_WORKER_ID(a.worker_id)} adlı çalışan {gorev_textbox.Text} görevinin durumunu ({durum_Text.Text} => {t}) güncelledi.Görev ID:{gorev_id},Görevin Projesi:{gorev_projesi.Text}", F.GET_SERVER_DATE());
+                        Scripts.Tools.LogTools.LOG_ENTER(a.worker_id, $"{Scripts.SQL.SqlQueries.WORKER_NAME_BY_WORKER_ID(a.worker_id)} adlı çalışan {gorev_textbox.Text} görevinin durumunu ({durum_Text.Text} => {t}) güncelledi.Görev ID:{gorev_id},Görevin Projesi:{gorev_projesi.Text}", Scripts.SQL.SqlQueries.GET_SERVER_DATE());
                         durum_Text.Text = t;
                         gorev_liste gl = (gorev_liste)Application.OpenForms["gorev_liste"];
                         if (gl!=null)
@@ -178,15 +183,15 @@ namespace Asteroid_Project_ManagerAPP
                     }
                 }
                 else
-                { F.DURUM_LABEL("Hata:Görev durumu boş veya 250 karakterden uzun olamaz.", Color.PaleVioletRed, 2000); }
+                { Scripts.Form.Status.STATUS_LABEL("Hata:Görev durumu boş veya 250 karakterden uzun olamaz.", Color.PaleVioletRed, 2000); }
             }
-            else F.DURUM_LABEL("Bu görevi yönetmeye yetkiniz yok.", Color.White, 4000);
+            else Scripts.Form.Status.STATUS_LABEL("Bu görevi yönetmeye yetkiniz yok.", Color.White, 4000);
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             if(task_images.Count>0)
-            F.OpenImage(gorev_Resim.Image);
+            Scripts.Tools.ImageTools.OpenImage(gorev_Resim.Image);
         }
 
         private void resim_Geri_Click(object sender, EventArgs e)
@@ -198,7 +203,7 @@ namespace Asteroid_Project_ManagerAPP
                     current_task_image_index--;
 
                 }
-                else F.DURUM_LABEL("Zaten ilk resimdesiniz.", Color.White, 3000);
+                else Scripts.Form.Status.STATUS_LABEL("Zaten ilk resimdesiniz.", Color.White, 3000);
             }
             resim_goster(current_task_image_index);
         }
@@ -211,7 +216,7 @@ namespace Asteroid_Project_ManagerAPP
                 {
                     current_task_image_index++;
                 }
-                else F.DURUM_LABEL("Zaten son resimdesiniz.", Color.White, 3000);
+                else Scripts.Form.Status.STATUS_LABEL("Zaten son resimdesiniz.", Color.White, 3000);
             }
             resim_goster(current_task_image_index);
         }
@@ -248,7 +253,7 @@ namespace Asteroid_Project_ManagerAPP
             DataGridView dataGridView = (DataGridView)sender;
             if (dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count > 0 && e.RowIndex == dataGridView.SelectedRows[0].Index)
             {
-                string[] positions = F.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                string[] positions = Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                 string P = dataGridView.SelectedRows[0].Cells[1].Value.ToString() + "'nin pozisyonları \n";
                 for (int i = 0; i < positions.Length; i++)
                 {

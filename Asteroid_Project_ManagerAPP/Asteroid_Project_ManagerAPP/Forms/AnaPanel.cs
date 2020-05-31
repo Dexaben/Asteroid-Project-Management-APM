@@ -17,12 +17,13 @@ namespace Asteroid_Project_ManagerAPP
             InitializeComponent();
         }
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
-        FUNCTIONS F = new FUNCTIONS();
         private void AnaPanel_Load(object sender, EventArgs e)
         {
             System.Data.SqlClient.SqlCommand komut = new System.Data.SqlClient.SqlCommand("SELECT worker_name FROM WORKERS WHERE worker_id=@WORKER_ID");
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-            DataTable table = F.SQL_SELECT_DATATABLE(komut, "Hata:Bilgiler veritabanında alınamadı.", Color.Red, 4000);
+            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            Scripts.SQL.SQL_COMMAND sqlCommand =new Scripts.SQL.SQL_COMMAND(komut, "Hata:Bilgiler veritabanında alınamadı.", Color.Red, 4000);
+            DataTable table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table != null)
             {
                 kullanici_ismi.Text = table.Rows[0]["worker_name"].ToString();

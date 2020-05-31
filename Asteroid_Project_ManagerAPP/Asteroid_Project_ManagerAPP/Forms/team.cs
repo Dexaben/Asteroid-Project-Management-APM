@@ -15,7 +15,7 @@ namespace Asteroid_Project_ManagerAPP
     {
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+     
         public team()
         {
             InitializeComponent();
@@ -47,14 +47,15 @@ namespace Asteroid_Project_ManagerAPP
         }
         void Gorevleri_Listele(SqlCommand sql)
         {
-            DataTable table = F.SQL_SELECT_DATATABLE(sql, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(sql, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 3000);
+            DataTable table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Çalışan Resmi", typeof(Image));
             dataTable.Columns.Add("Çalışan ID", typeof(int));
             dataTable.Columns.Add("Çalışan ismi", typeof(string));
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                dataTable.Rows.Add(F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]), Convert.ToInt32(table.Rows[i]["worker_id"]), table.Rows[i]["worker_name"].ToString());
+                dataTable.Rows.Add(Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]), Convert.ToInt32(table.Rows[i]["worker_id"]), table.Rows[i]["worker_name"].ToString());
             }
             calisan_liste_datagrid.DataSource = dataTable;
             for (int i = 0; i < calisan_liste_datagrid.Columns.Count; i++)
@@ -89,7 +90,7 @@ namespace Asteroid_Project_ManagerAPP
             DataGridView dataGridView = (DataGridView)sender;
             if (dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count > 0 && e.RowIndex == dataGridView.SelectedRows[0].Index)
             {
-                string[] positions = F.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[1].Value));
+                string[] positions = Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[1].Value));
                 string P = dataGridView.SelectedRows[0].Cells[2].Value.ToString() + "'nin pozisyonları \n";
                 for (int i = 0; i < positions.Length; i++)
                 {

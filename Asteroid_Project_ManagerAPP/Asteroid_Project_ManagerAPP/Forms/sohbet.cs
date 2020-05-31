@@ -20,7 +20,7 @@ namespace Asteroid_Project_ManagerAPP
         public StreamWriter STW;
         public string recieve;
         public String TextToSend;
-        FUNCTIONS F = new FUNCTIONS();
+      
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         public sohbet()
         {
@@ -40,7 +40,8 @@ namespace Asteroid_Project_ManagerAPP
         {
             SqlCommand komut = new SqlCommand("SELECT worker_name FROM WORKERS WHERE worker_id=@WORKER_ID");
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-            System.Data.DataTable table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan ismi alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan ismi alınamadı.", Color.Red, 4000);
+            System.Data.DataTable table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table != null)
             {
                 worker_name = table.Rows[0]["worker_name"].ToString();

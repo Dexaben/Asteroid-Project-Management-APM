@@ -44,7 +44,7 @@ namespace Asteroid_Project_ManagerCEO
         /// <returns></returns>
         public SqlConnection SQL_BAGLAN(SqlConnection sql)
         {
-            sql = new SqlConnection("Data Source=25.3.143.231;Initial Catalog=APM_DATABASE;Persist Security Info=True;User ID=admin;Password=1234");
+            sql = new SqlConnection("Data Source=25.3.143.231;Initial Catalog=APM_DATABASE;Persist Security Info=True;User ID=admin;Password=alpaylin385");
             return sql;
         }
         /// <summary>

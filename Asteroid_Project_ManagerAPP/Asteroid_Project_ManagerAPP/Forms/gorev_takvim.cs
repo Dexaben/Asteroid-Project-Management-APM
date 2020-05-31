@@ -13,7 +13,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
     public partial class gorev_takvim : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+  
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         DataTable table = new DataTable();
         class group_box
@@ -50,7 +50,8 @@ namespace Asteroid_Project_ManagerAPP.Forms
             komut = new SqlCommand("SELECT T.task_id,(SELECT P.project_name FROM PROJECTS P WHERE P.project_id=T.project_id)AS project_name,(SELECT P.project_start_date FROM PROJECTS P WHERE P.project_id=T.project_id)AS project_start_date,(SELECT P.project_finish_date FROM PROJECTS P WHERE P.project_id=T.project_id)AS project_finish_date,T.task_name,T.task_details,T.task_start_date,T.task_finish_date,T.task_status,T.task_urgency FROM TASKS T INNER JOIN TASK_WORKERS TW ON TW.task_id=T.task_id WHERE T.project_id=@PROJECT_ID AND T.task_status<>'Görev Tamamlandı'AND TW.worker_id=@WORKER_ID");
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
             komut.Parameters.AddWithValue("@PROJECT_ID", a.project_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Görev bilgileri alınamadı.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Görev bilgileri alınamadı.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table != null)
             {
                 if (table.Rows.Count > 0)
@@ -63,9 +64,9 @@ namespace Asteroid_Project_ManagerAPP.Forms
                     {
                         task_item task = new task_item();
                         System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
-                        DateTime startTime = F.DATETIME_CONVERTER(table.Rows[i]["task_finish_date"].ToString());
+                        DateTime startTime = Scripts.Tools.DateFunctions.DATETIME_CONVERTER(table.Rows[i]["task_finish_date"].ToString());
                         task.finish_tarih = startTime;
-                        DateTime finishTime = F.DATETIME_CONVERTER(table.Rows[i]["task_start_date"].ToString());
+                        DateTime finishTime = Scripts.Tools.DateFunctions.DATETIME_CONVERTER(table.Rows[i]["task_start_date"].ToString());
                         task.start_tarih = finishTime;
                         ListViewItem listviewItem = new ListViewItem();
                         listviewItem.Text = table.Rows[i]["task_name"].ToString();
@@ -86,7 +87,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
                 }
             }
             bugun_olacaklar_listView.Items.Clear();
-            dateTime = F.GET_SERVER_DATE();
+            dateTime = Scripts.SQL.SqlQueries.GET_SERVER_DATE();
            
             for (int i = 0; i < groupBoxes.Count; i++)
             {
@@ -100,7 +101,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             TAKVIM_AYARLA();
             if (groupBox.Text.Length >0)
             {
-                groupBox.BackColor = F.DARKER_COLOR(groupBox.BackColor);
+                groupBox.BackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox.BackColor);
                 bugun_olacaklar_listView.Items.Clear();
                 events_groupbox.Visible = true;
                 DateTime date = new DateTime(dateTime.Year, dateTime.Month, Convert.ToInt32(groupBox.Text));
@@ -110,7 +111,8 @@ namespace Asteroid_Project_ManagerAPP.Forms
                 komut = new SqlCommand("SELECT T.task_id,(SELECT P.project_name FROM PROJECTS P WHERE P.project_id=T.project_id)AS project_name,(SELECT P.project_start_date FROM PROJECTS P WHERE P.project_id=T.project_id)AS project_start_date,(SELECT P.project_finish_date FROM PROJECTS P WHERE P.project_id=T.project_id)AS project_finish_date,T.task_name,T.task_details,T.task_start_date,T.task_finish_date,T.task_status,T.task_urgency FROM TASKS T INNER JOIN TASK_WORKERS TW ON TW.task_id=T.task_id WHERE T.project_id=@PROJECT_ID AND T.task_status<>'Görev Tamamlandı'AND TW.worker_id=@WORKER_ID");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
                 komut.Parameters.AddWithValue("@PROJECT_ID", a.project_id);
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Görev bilgileri alınamadı.", Color.Red, 3000);
+                Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Görev bilgileri alınamadı.", Color.Red, 3000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                
                 DataTable bugun_Bitecek_Gorevler = new DataTable();
                 bugun_Bitecek_Gorevler.Columns.Add("Görev ID", typeof(int));
@@ -130,8 +132,8 @@ namespace Asteroid_Project_ManagerAPP.Forms
                         for (int i = 0; i < table.Rows.Count; i++)
                         {
                             System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
-                            DateTime task_finish_date =F.DATETIME_CONVERTER(table.Rows[i]["task_finish_date"].ToString());
-                            DateTime task_start_date = F.DATETIME_CONVERTER(table.Rows[i]["task_start_date"].ToString());
+                            DateTime task_finish_date =Scripts.Tools.DateFunctions.DATETIME_CONVERTER(table.Rows[i]["task_finish_date"].ToString());
+                            DateTime task_start_date = Scripts.Tools.DateFunctions.DATETIME_CONVERTER(table.Rows[i]["task_start_date"].ToString());
                             if (task_start_date.Date <= date.Date)
                             {
                                 if (task_finish_date.Date == date.Date)
@@ -209,7 +211,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 date = new DateTime(dateTime.Year, dateTime.Month, y+1);
                 groupBoxes[i].groupBox.Text = (y+1).ToString();
-                groupBoxes[i].groupBox.BackColor = F.DARKER_COLOR(Color.LightBlue, 80);
+                groupBoxes[i].groupBox.BackColor = Scripts.Tools.ColorTools.DARKER_COLOR(Color.LightBlue, 80);
                 for (int z = 0;z<tasks.Count;z++)
                 {
                     if(date >= tasks[z].start_tarih.Date && date <= tasks[z].finish_tarih.Date )

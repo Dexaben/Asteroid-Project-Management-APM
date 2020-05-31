@@ -8,7 +8,7 @@ namespace Asteroid_Project_ManagerAPP
     public partial class gorev_liste : Form
     {
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
-        FUNCTIONS F = new FUNCTIONS();
+
         SqlCommand komut = new SqlCommand();
         DataTable table = new DataTable();
         public int gorev_listeleme_turu = 0;
@@ -37,12 +37,13 @@ namespace Asteroid_Project_ManagerAPP
             komut = new SqlCommand("SELECT WORKERS.worker_image,(SELECT PROJECTS.project_image FROM PROJECTS WHERE PROJECTS.project_id = @PROJECT_ID)AS project_image,(SELECT PROGRAM.company_logo FROM PROGRAM)AS company_logo FROM WORKERS WHERE worker_id = @WORKER_ID");
             komut.Parameters.AddWithValue("@PROJECT_ID", a.project_id);
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgileri alınırken hata oluştu.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınırken hata oluştu.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table.Rows.Count != 0)
             {
-                uzerimdeki_gorev_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][0]);
-                projedeki_gorevler_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][1]);
-                butun_gorevler_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][2]);
+                uzerimdeki_gorev_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][0]);
+                projedeki_gorevler_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][1]);
+                butun_gorevler_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][2]);
             }
 
         }
@@ -87,14 +88,15 @@ namespace Asteroid_Project_ManagerAPP
             btn.FlatAppearance.BorderSize = 3;
             Color color = btn.BackColor;
             gorev_liste_datagrid.RowsDefaultCellStyle.BackColor = color;
-            gorev_liste_datagrid.RowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(color);
+            gorev_liste_datagrid.RowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(color);
             gorev_liste_datagrid.AlternatingRowsDefaultCellStyle.BackColor = color;
-            gorev_liste_datagrid.AlternatingRowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(color);
+            gorev_liste_datagrid.AlternatingRowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(color);
         }
        
         void Gorevleri_Listele(SqlCommand sql)
         {
-            table = F.SQL_SELECT_DATATABLE(sql, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(sql, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Görev id", typeof(int));
             dataTable.Columns.Add("Proje ismi", typeof(string));
@@ -107,7 +109,7 @@ namespace Asteroid_Project_ManagerAPP
             {
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"], table.Rows[i]["task_urgency"], F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_start_date"].ToString()), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), table.Rows[i]["task_status"].ToString());
+                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"], table.Rows[i]["task_urgency"], Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_start_date"].ToString()), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), table.Rows[i]["task_status"].ToString());
                 }
             }
             gorev_liste_datagrid.DataSource = dataTable;

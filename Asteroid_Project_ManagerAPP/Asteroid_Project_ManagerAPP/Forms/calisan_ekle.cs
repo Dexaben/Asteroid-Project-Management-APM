@@ -21,13 +21,12 @@ namespace Asteroid_Project_ManagerAPP
             InitializeComponent();
             this.AcceptButton = calisan_aktar;
         }
-        FUNCTIONS F = new FUNCTIONS();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         DataTable table = new DataTable();
         private void calisan_ekle_Load(object sender, EventArgs e)
         {
-           
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Çalışan ID", typeof(int));
             dataTable.Columns.Add("Çalışan İsmi", typeof(string));
@@ -36,7 +35,7 @@ namespace Asteroid_Project_ManagerAPP
             {
                 for(int i = 0;i<table.Rows.Count;i++)
                 {
-                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["worker_id"]), table.Rows[i]["worker_name"].ToString(), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]));
+                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["worker_id"]), table.Rows[i]["worker_name"].ToString(),Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]));
                 }
             }
             //datagridview2 columns add
@@ -91,7 +90,7 @@ namespace Asteroid_Project_ManagerAPP
                 {
                     aktarilacak_calisanlar_datagrid.Rows.Add(proje_calisanlari_datagrid.SelectedRows[0].Cells[0].Value, proje_calisanlari_datagrid.SelectedRows[0].Cells[1].Value.ToString(), proje_calisanlari_datagrid.SelectedRows[0].Cells[2].Value);
                 }
-                else F.DURUM_LABEL("Bu çalışan zaten ekli.", Color.BlueViolet, 2000);
+                else Scripts.Form.Status.STATUS_LABEL("Bu çalışan zaten ekli.", Color.BlueViolet, 2000);
             }
             else aktarilacak_calisanlar_datagrid.Rows.Add(proje_calisanlari_datagrid.SelectedRows[0].Cells[0].Value, proje_calisanlari_datagrid.SelectedRows[0].Cells[1].Value.ToString(), proje_calisanlari_datagrid.SelectedRows[0].Cells[2].Value);
         }
@@ -108,7 +107,7 @@ namespace Asteroid_Project_ManagerAPP
             DataGridView dataGridView = (DataGridView)sender;
             if (dataGridView.Rows.Count > 0 && dataGridView.SelectedRows.Count > 0 && e.RowIndex == dataGridView.SelectedRows[0].Index)
             {
-                string[] positions = F.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                string[] positions = Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                 string P = dataGridView.SelectedRows[0].Cells[1].Value.ToString() + "'nin pozisyonları \n";
                 for (int i = 0; i < positions.Length; i++)
                 {

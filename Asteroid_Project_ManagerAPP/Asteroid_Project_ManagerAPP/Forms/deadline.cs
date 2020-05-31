@@ -15,7 +15,6 @@ namespace Asteroid_Project_ManagerAPP.Forms
     public partial class deadline : Form
     {
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
-        FUNCTIONS F = new FUNCTIONS();
         DataTable table = new DataTable();
         public int gorev_listeleme_turu = 0;
         /// <summary>
@@ -44,12 +43,13 @@ namespace Asteroid_Project_ManagerAPP.Forms
             SqlCommand komut = new SqlCommand("SELECT WORKERS.worker_image,(SELECT PROJECTS.project_image FROM PROJECTS WHERE PROJECTS.project_id = @PROJECT_ID)AS project_image,(SELECT PROGRAM.company_logo FROM PROGRAM)AS company_logo FROM WORKERS WHERE worker_id = @WORKER_ID");
             komut.Parameters.AddWithValue("@PROJECT_ID", a.project_id);
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgileri alınırken hata oluştu.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınırken hata oluştu.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table.Rows.Count != 0)
             {
-                uzerimdeki_gorevler_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][0]);
-                projedeki_gorevler_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][1]);
-                butun_gorevler_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][2]);
+                uzerimdeki_gorevler_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][0]);
+                projedeki_gorevler_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][1]);
+                butun_gorevler_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0][2]);
             }
         }
 
@@ -108,28 +108,29 @@ namespace Asteroid_Project_ManagerAPP.Forms
             butun_gorevler.FlatAppearance.BorderSize = 0;
             btn.FlatAppearance.BorderSize = 3;
             Color color = btn.BackColor;
-            groupBox1.BackColor = F.DARKER_COLOR(color,70);
+            groupBox1.BackColor = Scripts.Tools.ColorTools.DARKER_COLOR(color,70);
             groupBox2.BackColor = color;
-            groupBox3.BackColor = F.LIGHTER_COLOR(color);
+            groupBox3.BackColor = Scripts.Tools.ColorTools.LIGHTER_COLOR(color);
             planlanan_gorev.RowsDefaultCellStyle.BackColor = groupBox1.BackColor;
-            planlanan_gorev.RowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(groupBox1.BackColor,90);
+            planlanan_gorev.RowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox1.BackColor,90);
             planlanan_gorev.AlternatingRowsDefaultCellStyle.BackColor = groupBox1.BackColor;
-            planlanan_gorev.AlternatingRowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(groupBox1.BackColor,90);
+            planlanan_gorev.AlternatingRowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox1.BackColor,90);
 
             devam_eden_gorev.RowsDefaultCellStyle.BackColor = groupBox2.BackColor;
-            devam_eden_gorev.RowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(groupBox2.BackColor,90);
+            devam_eden_gorev.RowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox2.BackColor,90);
             devam_eden_gorev.AlternatingRowsDefaultCellStyle.BackColor = groupBox2.BackColor;
-            devam_eden_gorev.AlternatingRowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(groupBox2.BackColor,90);
+            devam_eden_gorev.AlternatingRowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox2.BackColor,90);
 
             tamamlanan_gorev.RowsDefaultCellStyle.BackColor = groupBox3.BackColor;
-            tamamlanan_gorev.RowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(groupBox3.BackColor,90);
+            tamamlanan_gorev.RowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox3.BackColor,90);
             tamamlanan_gorev.AlternatingRowsDefaultCellStyle.BackColor = groupBox3.BackColor;
-            tamamlanan_gorev.AlternatingRowsDefaultCellStyle.SelectionBackColor = F.DARKER_COLOR(groupBox3.BackColor,90);
+            tamamlanan_gorev.AlternatingRowsDefaultCellStyle.SelectionBackColor = Scripts.Tools.ColorTools.DARKER_COLOR(groupBox3.BackColor,90);
         }
         void Gorevleri_Listele(SqlCommand sql_Planlanan,SqlCommand sql_DevamEden,SqlCommand sql_Tamamlanan)
         {
             //PLANLANAN
-            table = F.SQL_SELECT_DATATABLE(sql_Planlanan, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(sql_Planlanan, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable_PLANLANAN = new DataTable();
             dataTable_PLANLANAN.Columns.Add("Görev id", typeof(int));
             dataTable_PLANLANAN.Columns.Add("Proje ismi", typeof(string));
@@ -142,12 +143,13 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    dataTable_PLANLANAN.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"], table.Rows[i]["task_urgency"], F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_start_date"].ToString()), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), table.Rows[i]["task_status"].ToString());
+                    dataTable_PLANLANAN.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"], table.Rows[i]["task_urgency"], Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_start_date"].ToString()), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), table.Rows[i]["task_status"].ToString());
                 }
             }
             planlanan_gorev.DataSource = dataTable_PLANLANAN;
             //DEVAM EDEN
-            table = F.SQL_SELECT_DATATABLE(sql_DevamEden, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+             sqlCommand = new Scripts.SQL.SQL_COMMAND(sql_DevamEden, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            table =Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable_DEVAMEDEN = new DataTable();
             dataTable_DEVAMEDEN.Columns.Add("Görev id", typeof(int));
             dataTable_DEVAMEDEN.Columns.Add("Proje ismi", typeof(string));
@@ -159,12 +161,13 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    dataTable_DEVAMEDEN.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"], table.Rows[i]["task_urgency"], F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), table.Rows[i]["task_status"].ToString());
+                    dataTable_DEVAMEDEN.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"], table.Rows[i]["task_urgency"], Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), table.Rows[i]["task_status"].ToString());
                 }
             }
             devam_eden_gorev.DataSource = dataTable_DEVAMEDEN;
             //TAMAMLANAN
-            table = F.SQL_SELECT_DATATABLE(sql_Tamamlanan, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            sqlCommand = new Scripts.SQL.SQL_COMMAND(sql_Tamamlanan, "Hata:Veritabanına bağlanırken hata oluştu.", Color.Red, 3000);
+            table =Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             DataTable dataTable_TAMAMLANAN = new DataTable();
             dataTable_TAMAMLANAN.Columns.Add("Görev id", typeof(int));
             dataTable_TAMAMLANAN.Columns.Add("Proje ismi", typeof(string));
