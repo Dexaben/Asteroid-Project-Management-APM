@@ -14,7 +14,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
     public partial class calisan_ekle : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         public calisan_ekle()
         {
@@ -31,7 +31,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            fileName = F.OPENFILEIMAGE();
+            fileName = Scripts.Tools.ImageTools.OPENFILEIMAGE();
             if (fileName != null)
                 calisan_resmi.Image = Image.FromFile(fileName);
 
@@ -49,7 +49,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
             }
             komut = new SqlCommand("INSERT INTO WORKERS(worker_name,worker_image,worker_gender,worker_password,worker_mail,worker_onay) VALUES(@wrk_name,@wrk_image,@wrk_gender,@wrk_password,@wrk_mail,@wrk_onay)");
                     komut.Parameters.AddWithValue("@wrk_name", calisan_ismi.Text);
-                    komut.Parameters.AddWithValue("@wrk_password", F.Encrypt(calisan_sifre.Text));
+                    komut.Parameters.AddWithValue("@wrk_password", Scripts.Tools.CryptographyFunctions.Encrypt(calisan_sifre.Text));
             string cinsiyet;
             if(kadin_radioButton.Checked)
                     {
@@ -63,8 +63,9 @@ namespace Asteroid_Project_ManagerCEO.Forms
                     }
                     komut.Parameters.AddWithValue("@wrk_mail", calisan_mail.Text);
                     komut.Parameters.AddWithValue("@wrk_onay", 1);
-                    komut.Parameters.Add("@wrk_image", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
-            if (F.SQL_EXECUTENONQUERY(komut, "Hata:Çalışan veritabanına eklenemedi.", Color.Red, 3000))
+                    komut.Parameters.Add("@wrk_image", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan veritabanına eklenemedi.", Color.Red, 3000);
+            if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
             {
                 string positions = "";
 
@@ -74,10 +75,11 @@ namespace Asteroid_Project_ManagerCEO.Forms
                     komut = new SqlCommand("INSERT INTO WORKER_POSITIONS(worker_id,worker_job) VALUES((SELECT TOP 1 worker_id FROM WORKERS WHERE worker_name = @WORKER_NAME),@WORKER_JOB)");
                     komut.Parameters.AddWithValue("@WORKER_NAME", calisan_ismi.Text);
                     komut.Parameters.AddWithValue("@WORKER_JOB", pozisyonlar_liste.Items[i].ToString());
-                    F.SQL_EXECUTENONQUERY(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 3000);
+                     SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 3000);
+                    Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand);
                 }
-                F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından {calisan_ismi.Text} adlı çalışanın kaydı oluşturuldu.İsim:{calisan_ismi.Text},Mail:{calisan_mail.Text},Cinsiyet:{cinsiyet},Resim:{resim},Pozisyonlar:{positions}", F.GET_SERVER_DATE());
-                F.FORM_AC(new calisan(), true);
+                Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından {calisan_ismi.Text} adlı çalışanın kaydı oluşturuldu.İsim:{calisan_ismi.Text},Mail:{calisan_mail.Text},Cinsiyet:{cinsiyet},Resim:{resim},Pozisyonlar:{positions}", Scripts.SQL.SqlQueries.GET_SERVER_DATE());
+                Scripts.Form.FormManager.FORM_AC(new calisan(), true);
             }
                 
         }
@@ -94,7 +96,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
             if (r.IsMatch(kullanıcıad))
             {
                 komut = new SqlCommand("SELECT worker_name FROM WORKERS");
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan isimleri çekilemedi.", Color.Red, 3000);
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan isimleri çekilemedi.", Color.Red, 3000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
                 if (table != null)
                 {
                     for (int i = 0; i < table.Rows.Count; i++)
@@ -112,7 +115,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
             if (r.IsMatch(email))
             {
                 komut = new SqlCommand("SELECT worker_mail FROM WORKERS");
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan mail bilgileri çekilemedi.", Color.Red, 3000);
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan mail bilgileri çekilemedi.", Color.Red, 3000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
                 if (table != null)
                 {
                    if(table.Rows.Count !=0)
@@ -165,7 +169,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
         private void calisan_ekle_Load(object sender, EventArgs e)
         {
             komut = new SqlCommand("SELECT worker_jobs FROM JOBS");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Pozisyon isimleri veritabanından çekilemedi", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon isimleri veritabanından çekilemedi", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if (table.Rows.Count != 0)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
@@ -212,7 +217,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            F.FORM_AC(new calisan(), true);
+            Scripts.Form.FormManager.FORM_AC(new calisan(), true);
         }
     }
 }

@@ -315,7 +315,7 @@
             this.aktif_gorevler_datagrid.RowHeadersVisible = false;
             this.aktif_gorevler_datagrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.aktif_gorevler_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.aktif_gorevler_datagrid.Size = new System.Drawing.Size(419, 126);
+            this.aktif_gorevler_datagrid.Size = new System.Drawing.Size(419, 158);
             this.aktif_gorevler_datagrid.TabIndex = 30;
             this.aktif_gorevler_datagrid.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
@@ -334,7 +334,7 @@
             this.tamamlanmis_gorevler.RowHeadersVisible = false;
             this.tamamlanmis_gorevler.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.tamamlanmis_gorevler.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.tamamlanmis_gorevler.Size = new System.Drawing.Size(386, 126);
+            this.tamamlanmis_gorevler.Size = new System.Drawing.Size(386, 158);
             this.tamamlanmis_gorevler.TabIndex = 30;
             this.tamamlanmis_gorevler.DoubleClick += new System.EventHandler(this.dataGridView2_DoubleClick);
             // 
@@ -376,7 +376,7 @@
             this.proje_gorevleri.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.proje_gorevleri.Font = new System.Drawing.Font("Bahnschrift", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.proje_gorevleri.ForeColor = System.Drawing.Color.White;
-            this.proje_gorevleri.Location = new System.Drawing.Point(845, 279);
+            this.proje_gorevleri.Location = new System.Drawing.Point(845, 311);
             this.proje_gorevleri.Name = "proje_gorevleri";
             this.proje_gorevleri.Size = new System.Drawing.Size(90, 86);
             this.proje_gorevleri.TabIndex = 0;
@@ -388,7 +388,7 @@
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
             this.pictureBox4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBox4.Location = new System.Drawing.Point(28, 371);
+            this.pictureBox4.Location = new System.Drawing.Point(28, 403);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(900, 3);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -399,9 +399,9 @@
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
             this.pictureBox5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBox5.Location = new System.Drawing.Point(782, 378);
+            this.pictureBox5.Location = new System.Drawing.Point(782, 420);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(3, 260);
+            this.pictureBox5.Size = new System.Drawing.Size(3, 220);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 29;
             this.pictureBox5.TabStop = false;
@@ -411,7 +411,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Bahnschrift Light", 11.25F);
             this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(80, 389);
+            this.label12.Location = new System.Drawing.Point(82, 424);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(118, 18);
             this.label12.TabIndex = 23;
@@ -425,14 +425,14 @@
             this.proje_calisanlari_datagrid.AllowUserToResizeRows = false;
             this.proje_calisanlari_datagrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.proje_calisanlari_datagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.proje_calisanlari_datagrid.Location = new System.Drawing.Point(28, 410);
+            this.proje_calisanlari_datagrid.Location = new System.Drawing.Point(28, 445);
             this.proje_calisanlari_datagrid.MultiSelect = false;
             this.proje_calisanlari_datagrid.Name = "proje_calisanlari_datagrid";
             this.proje_calisanlari_datagrid.ReadOnly = true;
             this.proje_calisanlari_datagrid.RowHeadersVisible = false;
             this.proje_calisanlari_datagrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.proje_calisanlari_datagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.proje_calisanlari_datagrid.Size = new System.Drawing.Size(748, 228);
+            this.proje_calisanlari_datagrid.Size = new System.Drawing.Size(748, 193);
             this.proje_calisanlari_datagrid.TabIndex = 30;
             this.proje_calisanlari_datagrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
             this.proje_calisanlari_datagrid.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellMouseEnter);
@@ -442,7 +442,7 @@
             // 
             this.pictureBox7.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
-            this.pictureBox7.Location = new System.Drawing.Point(845, 242);
+            this.pictureBox7.Location = new System.Drawing.Point(845, 274);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(83, 31);
             this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -452,7 +452,7 @@
             // pictureBox8
             // 
             this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-            this.pictureBox8.Location = new System.Drawing.Point(28, 380);
+            this.pictureBox8.Location = new System.Drawing.Point(30, 412);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(46, 27);
             this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

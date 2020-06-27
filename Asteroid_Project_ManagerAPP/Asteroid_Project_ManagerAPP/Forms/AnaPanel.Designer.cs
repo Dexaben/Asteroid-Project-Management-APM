@@ -120,9 +120,9 @@
             this.kullanici_ismi.ForeColor = System.Drawing.Color.White;
             this.kullanici_ismi.Location = new System.Drawing.Point(18, 66);
             this.kullanici_ismi.Name = "kullanici_ismi";
-            this.kullanici_ismi.Size = new System.Drawing.Size(194, 23);
+            this.kullanici_ismi.Size = new System.Drawing.Size(46, 23);
             this.kullanici_ismi.TabIndex = 19;
-            this.kullanici_ismi.Text = "Alperen Hakkı KARAL";
+            this.kullanici_ismi.Text = "isim";
             // 
             // AnaPanel
             // 

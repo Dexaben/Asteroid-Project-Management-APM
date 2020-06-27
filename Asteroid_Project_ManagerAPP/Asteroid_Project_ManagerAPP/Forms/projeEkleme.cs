@@ -214,7 +214,7 @@ namespace Asteroid_Project_ManagerAPP.yonetimForms
 
                 }
             }
-            if(Convert.ToInt32(calisanlar_datagrid.SelectedRows[0].Cells[4].Value) > 0)
+            if(Convert.ToInt32(calisanlar_datagrid.SelectedRows[0].Cells[3].Value) > 0)
             {
                 if (MessageBox.Show(calisanlar_datagrid.SelectedRows[0].Cells[1].Value+" şuanda "+calisanlar_datagrid.SelectedRows[0].Cells[3].Value+" projede yer alıyor. Bu çalışanı yeni bir projeye eklemek istiyormusunuz?","Uyarı", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {

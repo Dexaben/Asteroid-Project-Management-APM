@@ -26,15 +26,19 @@ namespace Asteroid_Project_ManagerAPP.Scripts.Form
         public static void STATUS_LABEL(string durum_Text, System.Drawing.Color durum_Renk, float durum_Gosterim_Suresi)
         {
             anaForm = (AnaForm)System.Windows.Forms.Application.OpenForms["AnaForm"];
-            if (durum_panel)
+            try
             {
-                durum_panel = false;
-                string temp_text = anaForm.toolStripLabel1.Text;
-                System.Drawing.Color temp_color = anaForm.toolStripLabel1.ForeColor;
-                anaForm.toolStripLabel1.Text = durum_Text;
-                anaForm.toolStripLabel1.ForeColor = durum_Renk;
-                WaitSomeTime(durum_Gosterim_Suresi, temp_text, temp_color);
+                if (durum_panel)
+                {
+                    durum_panel = false;
+                    string temp_text = anaForm.toolStripLabel1.Text;
+                    System.Drawing.Color temp_color = anaForm.toolStripLabel1.ForeColor;
+                    anaForm.toolStripLabel1.Text = durum_Text;
+                    anaForm.toolStripLabel1.ForeColor = durum_Renk;
+                    WaitSomeTime(durum_Gosterim_Suresi, temp_text, temp_color);
+                }
             }
+            catch { }
         }
         public static async void WaitSomeTime(float delay, string tmptxt, System.Drawing.Color tmpclr)
         {

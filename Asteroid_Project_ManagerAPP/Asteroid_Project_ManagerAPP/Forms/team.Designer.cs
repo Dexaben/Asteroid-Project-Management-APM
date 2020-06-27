@@ -51,7 +51,7 @@
             // sirket_takimi
             // 
             this.sirket_takimi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.sirket_takimi.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.sirket_takimi.FlatAppearance.BorderColor = System.Drawing.SystemColors.WindowFrame;
             this.sirket_takimi.FlatAppearance.BorderSize = 3;
             resources.ApplyResources(this.sirket_takimi, "sirket_takimi");
             this.sirket_takimi.ForeColor = System.Drawing.Color.White;
@@ -62,7 +62,7 @@
             // proje_takimi
             // 
             this.proje_takimi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.proje_takimi.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.proje_takimi.FlatAppearance.BorderColor = System.Drawing.SystemColors.WindowFrame;
             this.proje_takimi.FlatAppearance.BorderSize = 3;
             resources.ApplyResources(this.proje_takimi, "proje_takimi");
             this.proje_takimi.ForeColor = System.Drawing.Color.White;

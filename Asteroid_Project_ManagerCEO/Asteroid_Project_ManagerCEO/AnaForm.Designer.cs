@@ -32,6 +32,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnaForm));
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.duyurular = new System.Windows.Forms.ListView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sirket_aciklamasi = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.sirket_ismi = new System.Windows.Forms.Label();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripTextBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.sirket_resmi = new System.Windows.Forms.PictureBox();
             this.panelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.çalışanOnayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,25 +51,13 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.duyurular = new System.Windows.Forms.ListView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.sirket_aciklamasi = new System.Windows.Forms.TextBox();
-            this.sirket_resmi = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.sirket_ismi = new System.Windows.Forms.Label();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sirket_resmi)).BeginInit();
-            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -77,6 +77,150 @@
             this.menuStrip.Size = new System.Drawing.Size(1254, 33);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.toolStrip1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 33);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(292, 716);
+            this.panel1.TabIndex = 4;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.duyurular);
+            this.groupBox2.Font = new System.Drawing.Font("Bahnschrift SemiBold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.groupBox2.Location = new System.Drawing.Point(12, 424);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(263, 212);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Duyurular";
+            // 
+            // duyurular
+            // 
+            this.duyurular.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.duyurular.HideSelection = false;
+            this.duyurular.Location = new System.Drawing.Point(3, 22);
+            this.duyurular.Name = "duyurular";
+            this.duyurular.Size = new System.Drawing.Size(257, 187);
+            this.duyurular.TabIndex = 5;
+            this.duyurular.UseCompatibleStateImageBehavior = false;
+            this.duyurular.View = System.Windows.Forms.View.SmallIcon;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.pictureBox2);
+            this.groupBox1.Controls.Add(this.sirket_aciklamasi);
+            this.groupBox1.Controls.Add(this.sirket_resmi);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.sirket_ismi);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(286, 415);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            // 
+            // sirket_aciklamasi
+            // 
+            this.sirket_aciklamasi.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.sirket_aciklamasi.Enabled = false;
+            this.sirket_aciklamasi.Font = new System.Drawing.Font("Bahnschrift Light", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.sirket_aciklamasi.HideSelection = false;
+            this.sirket_aciklamasi.Location = new System.Drawing.Point(9, 130);
+            this.sirket_aciklamasi.Multiline = true;
+            this.sirket_aciklamasi.Name = "sirket_aciklamasi";
+            this.sirket_aciklamasi.ReadOnly = true;
+            this.sirket_aciklamasi.ShortcutsEnabled = false;
+            this.sirket_aciklamasi.Size = new System.Drawing.Size(263, 270);
+            this.sirket_aciklamasi.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift Light", 9F);
+            this.label3.Location = new System.Drawing.Point(55, 113);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(98, 14);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Şirket Açıklaması";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Bahnschrift Light", 9F);
+            this.label1.Location = new System.Drawing.Point(106, 28);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 14);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Şirket İsmi";
+            // 
+            // sirket_ismi
+            // 
+            this.sirket_ismi.AutoSize = true;
+            this.sirket_ismi.Font = new System.Drawing.Font("Bahnschrift", 13F, System.Drawing.FontStyle.Bold);
+            this.sirket_ismi.Location = new System.Drawing.Point(103, 42);
+            this.sirket_ismi.Name = "sirket_ismi";
+            this.sirket_ismi.Size = new System.Drawing.Size(141, 22);
+            this.sirket_ismi.TabIndex = 2;
+            this.sirket_ismi.Text = "Asteroid Games";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.AllowMerge = false;
+            this.toolStrip1.BackColor = System.Drawing.Color.Black;
+            this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip1.Font = new System.Drawing.Font("Bahnschrift Condensed", 10F);
+            this.toolStrip1.GripMargin = new System.Windows.Forms.Padding(3);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1});
+            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
+            this.toolStrip1.Location = new System.Drawing.Point(0, 693);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(292, 23);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.AutoToolTip = true;
+            this.toolStripLabel1.BackColor = System.Drawing.SystemColors.InfoText;
+            this.toolStripLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripLabel1.ForeColor = System.Drawing.Color.White;
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.ReadOnly = true;
+            this.toolStripLabel1.ShortcutsEnabled = false;
+            this.toolStripLabel1.Size = new System.Drawing.Size(288, 23);
+            this.toolStripLabel1.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(17, 106);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(32, 21);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 4;
+            this.pictureBox2.TabStop = false;
+            // 
+            // sirket_resmi
+            // 
+            this.sirket_resmi.BackColor = System.Drawing.Color.White;
+            this.sirket_resmi.Image = ((System.Drawing.Image)(resources.GetObject("sirket_resmi.Image")));
+            this.sirket_resmi.Location = new System.Drawing.Point(17, 20);
+            this.sirket_resmi.Name = "sirket_resmi";
+            this.sirket_resmi.Size = new System.Drawing.Size(80, 80);
+            this.sirket_resmi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.sirket_resmi.TabIndex = 1;
+            this.sirket_resmi.TabStop = false;
+            this.sirket_resmi.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // panelToolStripMenuItem
             // 
@@ -146,151 +290,6 @@
             this.toolStripMenuItem1.Text = "Aktivite Dökümü";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.aktiviteDökümüToolStripMenuItem_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.toolStrip1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 33);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(292, 716);
-            this.panel1.TabIndex = 4;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.duyurular);
-            this.groupBox2.Font = new System.Drawing.Font("Bahnschrift SemiBold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.groupBox2.Location = new System.Drawing.Point(12, 424);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(263, 212);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Duyurular";
-            // 
-            // duyurular
-            // 
-            this.duyurular.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.duyurular.HideSelection = false;
-            this.duyurular.Location = new System.Drawing.Point(3, 22);
-            this.duyurular.Name = "duyurular";
-            this.duyurular.Size = new System.Drawing.Size(257, 187);
-            this.duyurular.TabIndex = 5;
-            this.duyurular.UseCompatibleStateImageBehavior = false;
-            this.duyurular.View = System.Windows.Forms.View.SmallIcon;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.pictureBox2);
-            this.groupBox1.Controls.Add(this.sirket_aciklamasi);
-            this.groupBox1.Controls.Add(this.sirket_resmi);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.sirket_ismi);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(286, 415);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(17, 106);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(32, 21);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            // 
-            // sirket_aciklamasi
-            // 
-            this.sirket_aciklamasi.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.sirket_aciklamasi.Enabled = false;
-            this.sirket_aciklamasi.Font = new System.Drawing.Font("Bahnschrift Light", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.sirket_aciklamasi.HideSelection = false;
-            this.sirket_aciklamasi.Location = new System.Drawing.Point(9, 130);
-            this.sirket_aciklamasi.Multiline = true;
-            this.sirket_aciklamasi.Name = "sirket_aciklamasi";
-            this.sirket_aciklamasi.ReadOnly = true;
-            this.sirket_aciklamasi.ShortcutsEnabled = false;
-            this.sirket_aciklamasi.Size = new System.Drawing.Size(263, 270);
-            this.sirket_aciklamasi.TabIndex = 3;
-            // 
-            // sirket_resmi
-            // 
-            this.sirket_resmi.BackColor = System.Drawing.Color.White;
-            this.sirket_resmi.Image = ((System.Drawing.Image)(resources.GetObject("sirket_resmi.Image")));
-            this.sirket_resmi.Location = new System.Drawing.Point(17, 20);
-            this.sirket_resmi.Name = "sirket_resmi";
-            this.sirket_resmi.Size = new System.Drawing.Size(80, 80);
-            this.sirket_resmi.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.sirket_resmi.TabIndex = 1;
-            this.sirket_resmi.TabStop = false;
-            this.sirket_resmi.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Bahnschrift Light", 9F);
-            this.label3.Location = new System.Drawing.Point(55, 113);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 14);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Şirket Açıklaması";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Bahnschrift Light", 9F);
-            this.label1.Location = new System.Drawing.Point(106, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 14);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Şirket İsmi";
-            // 
-            // sirket_ismi
-            // 
-            this.sirket_ismi.AutoSize = true;
-            this.sirket_ismi.Font = new System.Drawing.Font("Bahnschrift", 13F, System.Drawing.FontStyle.Bold);
-            this.sirket_ismi.Location = new System.Drawing.Point(103, 42);
-            this.sirket_ismi.Name = "sirket_ismi";
-            this.sirket_ismi.Size = new System.Drawing.Size(141, 22);
-            this.sirket_ismi.TabIndex = 2;
-            this.sirket_ismi.Text = "Asteroid Games";
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.AllowMerge = false;
-            this.toolStrip1.BackColor = System.Drawing.Color.Black;
-            this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.toolStrip1.Font = new System.Drawing.Font("Bahnschrift Condensed", 10F);
-            this.toolStrip1.GripMargin = new System.Windows.Forms.Padding(3);
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1});
-            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table;
-            this.toolStrip1.Location = new System.Drawing.Point(0, 693);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(292, 23);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.AutoToolTip = true;
-            this.toolStripLabel1.BackColor = System.Drawing.SystemColors.InfoText;
-            this.toolStripLabel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripLabel1.ForeColor = System.Drawing.Color.White;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.ReadOnly = true;
-            this.toolStripLabel1.ShortcutsEnabled = false;
-            this.toolStripLabel1.Size = new System.Drawing.Size(288, 23);
-            this.toolStripLabel1.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // AnaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,10 +314,10 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sirket_resmi)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sirket_resmi)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

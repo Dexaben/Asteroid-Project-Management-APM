@@ -112,7 +112,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.Tools
         }
         public static string OPENFILEIMAGE()
         {
-            using (System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog() { Filter = "JPEG|*.jpg", ValidateNames = true, Multiselect = false })
+            using (System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png", ValidateNames = true, Multiselect = false })
             {
                 if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {

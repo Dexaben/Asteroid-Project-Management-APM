@@ -93,7 +93,9 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 groupBoxes[i].groupBox.BackColor = Color.LightBlue;
             }
-            takvim_date_picker.Value = dateTime;
+            if (dateTime > takvim_date_picker.MaxDate || dateTime < takvim_date_picker.MinDate)
+                takvim_date_picker.Value = takvim_date_picker.MinDate;
+            else takvim_date_picker.Value = dateTime;
             dateTimePicker1_ValueChanged(this, null);
         }
         void GUN_TIKLA(GroupBox groupBox)

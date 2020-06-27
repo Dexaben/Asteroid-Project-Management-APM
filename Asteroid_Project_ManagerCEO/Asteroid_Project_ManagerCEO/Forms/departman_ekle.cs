@@ -15,7 +15,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
     public partial class departman_ekle : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         public departman_ekle()
         {
@@ -29,7 +29,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            fileName = F.OPENFILEIMAGE();
+            fileName = Scripts.Tools.ImageTools.OPENFILEIMAGE();
             if(fileName != null)
             departman_resim.Image = Image.FromFile(fileName);
         }
@@ -47,20 +47,21 @@ namespace Asteroid_Project_ManagerCEO.Forms
             komut = new SqlCommand("INSERT INTO DEPARTMENTS(department_name,department_details,department_logo) VALUES(@dp_name,@dp_details,@dp_logo)");
             komut.Parameters.AddWithValue("@dp_name", departman_ismi.Text);
             komut.Parameters.AddWithValue("@dp_details", departman_detay.Text);
-            komut.Parameters.Add("@dp_logo", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+            komut.Parameters.Add("@dp_logo", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             if (departman_ismi.Text.Length > 0)
             {
-                if (F.SQL_EXECUTENONQUERY(komut, "Hata:Departman eklenemedi.", Color.Red, 4000))
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Departman eklenemedi.", Color.Red, 4000);
+                if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
                 {
-                    F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından {departman_ismi.Text} adlı departman eklendi.Departman İsmi:{departman_ismi.Text},Departman Resmi:{resim}",F.GET_SERVER_DATE());
-                    F.FORM_AC(new departman(), true);
+                    Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından {departman_ismi.Text} adlı departman eklendi.Departman İsmi:{departman_ismi.Text},Departman Resmi:{resim}",Scripts.SQL.SqlQueries.GET_SERVER_DATE());
+                    Scripts.Form.FormManager.FORM_AC(new departman(), true);
                 }
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            F.FORM_AC(new departman(), true);
+            Scripts.Form.FormManager.FORM_AC(new departman(), true);
         }
 
         private void departman_resmi_kaldir_Click(object sender, EventArgs e)

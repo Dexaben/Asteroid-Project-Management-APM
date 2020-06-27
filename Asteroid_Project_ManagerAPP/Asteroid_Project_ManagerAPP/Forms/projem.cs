@@ -119,7 +119,7 @@ namespace Asteroid_Project_ManagerAPP
         {
             gorev_liste gorev_Liste= new gorev_liste();
             gorev_Liste.gorev_listeleme_turu = 1;
-            Scripts.Form.FormManager.FORM_AC(gorev_Liste, true);
+            Scripts.Form.FormManager.FORM_AC(gorev_Liste,true);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -153,6 +153,7 @@ namespace Asteroid_Project_ManagerAPP
         {
             if(Scripts.SQL.SqlQueries.PROJE_YONETICISI_KONTROL(a.worker_id,a.project_id))
             Scripts.Form.FormManager.FORM_AC(new Forms.proje_guncelle(), true);
+            else MessageBox.Show("Proje yöneticisi olmadığınızdan proje bilgilerini güncelleyemezsiniz.");
         }
 
         private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -167,10 +168,14 @@ namespace Asteroid_Project_ManagerAPP
             {
                 string[] positions = Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                 string P = dataGridView.SelectedRows[0].Cells[2].Value.ToString() + "'nin pozisyonları \n";
-                for (int i = 0; i < positions.Length; i++)
+                if(positions != null)
                 {
-                    P += positions[i] + "\n";
+                    for (int i = 0; i < positions.Length; i++)
+                    {
+                        P += positions[i] + "\n";
+                    }
                 }
+                
                 System.Drawing.Rectangle cellRect = dataGridView.GetCellDisplayRectangle(2, e.RowIndex, false);
                 toolTip1.Show(P,
                               this,

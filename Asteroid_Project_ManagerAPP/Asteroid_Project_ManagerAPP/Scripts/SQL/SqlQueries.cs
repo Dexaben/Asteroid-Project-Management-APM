@@ -9,11 +9,10 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
 {
     class SqlQueries
     { 
-      
-     
             public static System.Data.DataTable SQL_SELECT_DATATABLE(SQL_COMMAND sqlCommand)
             {
-            sqlCommand.SqlCommand.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            sqlCommand.SqlCommand.Connection = Scripts.SQL.SqlConnections.sqlConnection;
+         
                 System.Data.DataTable DT = new System.Data.DataTable();
                 try
                 {
@@ -31,22 +30,29 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
         /// </summary>
         public static string[] WORKER_ROLE_CALL_BY_ID(int worker_id)
         {
-            SqlCommand komut = new SqlCommand("SELECT worker_job FROM WORKER_POSITIONS WHERE worker_id=@WORKER_ID");
-            komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-            komut.Connection = SQL.SqlConnections.GET_SQLCONNECTION();
-            SQL.SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
+
             try
             {
-                SqlDataReader veri = sqlCommand.SqlCommand.ExecuteReader();
+                SqlCommand komut = new SqlCommand("SELECT worker_job FROM WORKER_POSITIONS WHERE worker_id=@WORKER_ID");
+                komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
+                komut.Connection = SQL.SqlConnections.sqlConnection;
+                SQL.SqlConnections.SQL_SERVER_CONNECT();
+                SQL.SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
+                System.Data.DataTable table = new System.Data.DataTable();
+                table = SQL_SELECT_DATATABLE(sqlCommand);
                 List<string> WORKER_ROLES = new List<string>();
-                while (veri.Read())
+                for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    WORKER_ROLES.Add(veri[0].ToString());
-                }
-                veri.Close();
+                    WORKER_ROLES.Add(table.Rows[i]["worker_job"].ToString());  
+                } 
+                    
                 return WORKER_ROLES.ToArray();
             }
-            catch { Form.Status.STATUS_LABEL(sqlCommand.errorText, sqlCommand.errorColor, sqlCommand.errorOnScreenTime); }
+            catch 
+            {
+                Form.Status.STATUS_LABEL("Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
+           
+            }
             finally
             {
                 SQL.SqlConnections.SQL_SERVER_DISCONNECT();
@@ -62,7 +68,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             {
                 SqlCommand komut = new SqlCommand("SELECT COUNT(worker_job)AS worker_job_count FROM WORKER_POSITIONS WHERE worker_job=@WORKER_JOB");
                 komut.Parameters.AddWithValue("@WORKER_JOB", worker_role);
-                komut.Connection = SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = SQL.SqlConnections.sqlConnection;
                 SQL.SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
                 System.Data.DataTable table = new System.Data.DataTable();
                 table = SQL_SELECT_DATATABLE(sqlCommand);
@@ -85,7 +91,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             {
                 SqlCommand komut = new SqlCommand("SELECT worker_name FROM WORKERS WHERE worker_id=@WORKER_ID");
                 komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-                komut.Connection = SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = SQL.SqlConnections.sqlConnection;
                 SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
 
                 System.Data.DataTable table = new System.Data.DataTable();
@@ -109,7 +115,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             {
                 SqlCommand komut = new SqlCommand("SELECT project_name FROM PROJECTS WHERE project_id=@PROJECT_ID");
                 komut.Parameters.AddWithValue("@PROJECT_ID", project_id);
-                komut.Connection = SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = SQL.SqlConnections.sqlConnection;
                 SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
             
                 System.Data.DataTable table = new System.Data.DataTable();
@@ -136,7 +142,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             {
                 SqlCommand komut = new SqlCommand("SELECT W.worker_id,W.worker_name,WP.worker_job FROM WORKERS W INNER JOIN WORKER_POSITIONS WP ON W.worker_id=WP.worker_id WHERE WP.worker_job=@WORKER_JOB");
                 komut.Parameters.AddWithValue("@WORKER_JOB", worker_role);
-                komut.Connection = SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = SQL.SqlConnections.sqlConnection;
                 SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
                 
                 System.Data.DataTable table = new System.Data.DataTable();
@@ -169,18 +175,10 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
         {
             try
             {
-                SqlCommand komut = new SqlCommand("SELECT worker_job FROM WORKER_POSITIONS WHERE worker_id=@WORKER_ID");
-                komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-                komut.Connection = SqlConnections.GET_SQLCONNECTION();
-                SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
-
-                SqlDataReader veri = komut.ExecuteReader();
-                List<string> WORKER_ROLES = new List<string>();
-                while (veri.Read())
-                {
-                    WORKER_ROLES.Add(veri[0].ToString());
-                }
-                for (int i = 0; i < WORKER_ROLES.Count; i++)
+          
+                string[] WORKER_ROLES = WORKER_ROLE_CALL_BY_ID(worker_id);
+         
+                for (int i = 0; i < WORKER_ROLES.Length; i++)
                 {
                     if (WORKER_ROLES[i] == worker_role)
                     {
@@ -193,6 +191,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             finally
             {
                 SqlConnections.SQL_SERVER_DISCONNECT();
+                
             }
             return false;
         }
@@ -202,9 +201,9 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             {
                 SqlCommand komut = new SqlCommand("SELECT P.project_manager FROM PROJECTS P WHERE P.project_id=@PROJECT_ID");
                 komut.Parameters.AddWithValue("@PROJECT_ID", project_id);
-                komut.Connection = SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = SqlConnections.sqlConnection;
                 SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata: Veritabanından roller alınırken hata oluştu.", System.Drawing.Color.Red, 2000);
-  
+                SqlConnections.SQL_SERVER_CONNECT();
                 SqlDataReader veri = komut.ExecuteReader();
                 if (veri.Read())
                 {
@@ -219,6 +218,7 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
             finally
             {
                 SqlConnections.SQL_SERVER_DISCONNECT();
+
             }
             return false;
         }
@@ -226,13 +226,20 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
         {
             DateTime dt = new DateTime();
             SqlCommand komut = new SqlCommand("SELECT GETDATE()AS server_tarih");
-            komut.Connection = SQL.SqlConnections.GET_SQLCONNECTION();
+            komut.Connection = SQL.SqlConnections.sqlConnection;
             SQL_COMMAND sqlCommand = new SQL_COMMAND(komut, "Hata:Sunucu zamanı alınamadı.", System.Drawing.Color.Red, 4000);
             System.Data.DataTable table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if (table != null)
             {
                 System.Globalization.CultureInfo provider = System.Globalization.CultureInfo.InvariantCulture;
-                dt = DateTime.ParseExact(table.Rows[0]["server_tarih"].ToString(), "dd.MM.yyyy HH:mm:ss", provider);
+                try
+                {
+                    dt = DateTime.ParseExact(table.Rows[0]["server_tarih"].ToString(), "dd.MM.yyyy HH:mm:ss", provider);
+                }catch
+                {
+                    dt = DateTime.ParseExact(table.Rows[0]["server_tarih"].ToString(), "d.MM.yyyy HH:mm:ss", provider);
+
+                }
                 return dt;
             }
             return dt;

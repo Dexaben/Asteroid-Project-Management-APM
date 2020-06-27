@@ -26,28 +26,39 @@ namespace Asteroid_Project_ManagerAPP
         {
             panel_saat.Text = (DateTime.Now - timer_baslangic).ToString("T");
         }
-      
-        private void AnaForm_Load(object sender, EventArgs e)
+        public void StartAnaForm()
         {
-            timer_baslangic = DateTime.Now- Scripts.SQL.SqlQueries.GET_SERVER_DATE(); //LOCAL MAKİNE ZAMANI İLE SERVER MAKİNESİ ZAMANININ , ZAMAN FARKINI ALIYOR.
+           
+            timer_baslangic = DateTime.Now - Scripts.SQL.SqlQueries.GET_SERVER_DATE(); //LOCAL MAKİNE ZAMANI İLE SERVER MAKİNESİ ZAMANININ , ZAMAN FARKINI ALIYOR.
             sonGirisZamani = Scripts.SQL.SqlQueries.GET_SERVER_DATE(); //UYGULAMAYA GİRİŞ ZAMANI ALINIYOR.
             panel_tarih.Text = Scripts.SQL.SqlQueries.GET_SERVER_DATE().ToString("dddd, dd MMMM yyyy");
+            Scripts.Form.FormManager.FORM_AC(new calisan_giris(),true);
+        }
+        private void AnaForm_Load(object sender, EventArgs e)
+        {
+            groupBox1.Visible = true;
+            proje_bilgileri_groupBox.Visible = false;
+            gorev_bilgileri_groupBox.Visible = false;
+            profil_bilgileri_groupBox.Visible = false;
+            menuStrip1.Visible = false;
             timer1.Start();
             Controls.OfType<MdiClient>().FirstOrDefault().BackColor = Color.White; //MDI CONTAINER ARKA PLAN RENGİNİ BEYAZ YAPIYOR.
-            menuStrip1.Visible = false;
-            Scripts.Form.FormManager.FORM_AC(new calisan_giris(), true);
-            Scripts.Form.Status.STATUS_LABEL("Durum : Kayıt,giriş bekleniyor.",Color.White);
+          
+            Scripts.Form.Status.STATUS_LABEL("Durum : Kayıt,giriş bekleniyor.", Color.White);
+  
+                Forms.connectAPM connectAPM = new Forms.connectAPM();
+                connectAPM.Show(this);
         }
         public void ANAFORM_BILGILER_GUNCELLE()
         {
-
+            groupBox1.Visible = false;
             if (worker_id != 0) //ANA PANEL UZERİNDEKİ PROFİL BİLGİLERİNİ SENKRONİZE EDER
             {
                 menuStrip1.Visible = true;
                 profil_bilgileri_groupBox.Visible = true;
                 komut = new SqlCommand("SELECT worker_id,worker_name,worker_image,worker_gender FROM WORKERS WHERE worker_id=@wrk_id");
                 komut.Parameters.AddWithValue("@wrk_id", worker_id);
-                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                 Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata Bilgiler güncellenirken sorun oluştu.", Color.Red, 3000);
                 table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                 if (table.Rows.Count != 0)
@@ -55,7 +66,7 @@ namespace Asteroid_Project_ManagerAPP
                     profil_bilgileri_groupBox.Text = "Profil Bilgileri - ID(" + table.Rows[0]["worker_id"].ToString() + ")";
                     profil_resmi.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["worker_image"]);
                     textBox6.Text = (table.Rows[0]["worker_name"]).ToString();
-                    if (Scripts.SQL.SqlQueries.WORKER_HAS_ROLE_BY_WORKER_ID_AND_WORKER_ROLE(Convert.ToInt32(table.Rows[0]["worker_id"]), "Proje Yöneticisi"))
+                    if (Scripts.SQL.SqlQueries.WORKER_HAS_ROLE_BY_WORKER_ID_AND_WORKER_ROLE(worker_id, "Proje Yöneticisi"))
                     {
                         proje_yoneticisi_label.Visible = true;
                         proje_yoneticisi_label.Text = "Proje Yöneticisi";
@@ -77,7 +88,7 @@ namespace Asteroid_Project_ManagerAPP
                 komut = new SqlCommand("SELECT TASKS.task_status,TASKS.task_id,(SELECT PROJECTS.project_name  FROM PROJECTS WHERE (TASKS.project_id = PROJECTS.project_id))as project_name, task_name,task_finish_date FROM TASKS INNER JOIN TASK_WORKERS ON TASK_WORKERS.worker_id = @WORKER_ID WHERE(project_id = @PROJECT_ID AND TASK_WORKERS.task_id = TASKS.task_id AND TASKS.task_status<>'Görev Tamamlandı')");
                 komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
                 komut.Parameters.AddWithValue("@PROJECT_ID", project_id);
-                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                 Scripts.SQL.SQL_COMMAND  sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:En yakın görev bilgisi alınırken sorun oluştu.", Color.Red, 2000);
                 table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                 tasks = new List<Tasks>(table.Rows.Count);
@@ -102,7 +113,7 @@ namespace Asteroid_Project_ManagerAPP
 
                 komut = new SqlCommand("SELECT project_id,project_name,project_image,project_detail,project_start_date,project_finish_date,project_status,(SELECT worker_name FROM WORKERS WHERE worker_id=project_manager)AS project_manager,(SELECT department_name FROM DEPARTMENTS WHERE (department_id = PROJECTS.department_id))AS department_name FROM PROJECTS WHERE project_id=@project_id");
                 komut.Parameters.AddWithValue("@project_id", project_id);
-                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                  sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 2000);
               table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                 if(table.Rows.Count != 0)
@@ -144,11 +155,7 @@ namespace Asteroid_Project_ManagerAPP
         }
         private void sohbetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (project_id != 0)
-            {
-                Scripts.Form.FormManager.FORM_AC(new sohbet(), true);
-            }
-            else Scripts.Form.Status.STATUS_LABEL("Durum: Herhangibir proje seçimi yapılmamış.", Color.White, 2000);
+        
         }
 
         private void profilToolStripMenuItem_Click(object sender, EventArgs e)

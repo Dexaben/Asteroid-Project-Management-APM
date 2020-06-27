@@ -27,7 +27,14 @@ namespace Asteroid_Project_ManagerAPP
                 isim.Text = table.Rows[0]["worker_name"].ToString();
                 cinsiyet.Text = table.Rows[0]["worker_gender"].ToString();
                 email.Text = table.Rows[0]["worker_mail"].ToString();
-                pozisyonlar_listview.Items.AddRange(Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(a.worker_id));
+                try
+                {
+                    pozisyonlar_listview.Items.AddRange(Scripts.SQL.SqlQueries.WORKER_ROLE_CALL_BY_ID(a.worker_id));
+                }
+                catch
+                {
+                    
+                }
                 pictureBox1.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["worker_image"]);
             }
             komut = new SqlCommand("select DISTINCT PROJECTS.project_id,PROJECTS.project_name,PROJECTS.project_start_date,PROJECTS.project_finish_date FROM PROJECTS INNER JOIN PROJECT_WORKERS on(PROJECT_WORKERS.project_id = PROJECTS.project_id AND PROJECT_WORKERS.worker_id = @WORKER_ID)");

@@ -27,7 +27,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             label1.Text = "";
             label1.ForeColor = Color.Red;
             komut = new SqlCommand("SELECT worker_jobs FROM JOBS");
-            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
             Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon bilgileri veritabanından çekilemedi.", Color.Red, 2000);
             table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
 
@@ -45,7 +45,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             }
             komut = new SqlCommand("SELECT worker_name,worker_image,worker_gender,worker_mail FROM WORKERS WHERE worker_id=@WORKER_ID");
             komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
            sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
             table =Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
             if(table != null)
@@ -93,14 +93,15 @@ namespace Asteroid_Project_ManagerAPP.Forms
             else { komut.Parameters.AddWithValue("@WORKER_GENDER", "Erkek"); cinsiyet = "Erkek"; }
             komut.Parameters.Add("@WORKER_IMAGE", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             komut.Parameters.AddWithValue("@WORKER_ONAY", Convert.ToBoolean(0));
-            komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+            komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
             Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Bilgiler veritabanına aktarılırken sorun oluştu.", Color.Red, 3000);
+            Scripts.SQL.SqlConnections.SQL_SERVER_CONNECT();
             if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand))
             {
                 string positions = "";
                 komut = new SqlCommand("DELETE FROM WORKER_POSITIONS WHERE worker_id=@WORKER_ID");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                 sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 4000);
 
                 if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand))
@@ -112,7 +113,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
                         komut = new SqlCommand("INSERT INTO WORKER_POSITIONS(worker_id,worker_job) VALUES(@WORKER_ID,@WORKER_JOB)");
                         komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
                         komut.Parameters.AddWithValue("@WORKER_JOB", pozisyonlarListBox.Items[i].ToString());
-                        komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                        komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                         sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyonları güncellenemedi.", Color.Red, 3000);
                         Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(sqlCommand);
                     }
@@ -130,7 +131,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 komut = new SqlCommand("SELECT worker_mail,(SELECT W.worker_mail FROM WORKERS W WHERE W.worker_id=@WORKER_ID)AS my_mail  FROM WORKERS");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                 Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan mail bilgileri çekilemedi.", Color.Red, 3000);
                 table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);
                 if (table != null)
@@ -161,7 +162,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
             {
                 komut = new SqlCommand("SELECT worker_name,(SELECT W.worker_name FROM WORKERS W WHERE W.worker_id=@WORKER_ID)AS my_name FROM WORKERS");
                 komut.Parameters.AddWithValue("@WORKER_ID", a.worker_id);
-                komut.Connection = Scripts.SQL.SqlConnections.GET_SQLCONNECTION();
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
                 Scripts.SQL.SQL_COMMAND sqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Kullanıcı isimleri veritabanından alınamadı.", Color.Red, 2000);
 
                 table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(sqlCommand);

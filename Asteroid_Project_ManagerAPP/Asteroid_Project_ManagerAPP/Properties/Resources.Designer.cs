@@ -59,5 +59,15 @@ namespace Asteroid_Project_ManagerAPP.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap türünde yerelleştirilmiş bir kaynak arar.
+        /// </summary>
+        internal static System.Drawing.Bitmap asteroidstudiosPNG {
+            get {
+                object obj = ResourceManager.GetObject("asteroidstudiosPNG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

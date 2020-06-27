@@ -18,13 +18,14 @@ namespace Asteroid_Project_ManagerCEO.Forms
             InitializeComponent();
         }
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         private void projeler_Load(object sender, EventArgs e)
         {
             komut = new SqlCommand("SELECT project_id,project_name,project_image,project_start_date,project_finish_date,(SELECT DEPARTMENTS.department_name FROM DEPARTMENTS WHERE DEPARTMENTS.department_id = PROJECTS.department_id)AS department_name FROM PROJECTS");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Proje bilgileri alınamadı.", Color.Red, 2000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Proje bilgileri alınamadı.", Color.Red, 2000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Proje ID", typeof(int));
             dataTable.Columns.Add("Proje İsmi", typeof(string));
@@ -34,7 +35,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
             dataTable.Columns.Add("Departman", typeof(string));
             for (int i = 0; i < table.Rows.Count; i++)
             {
-                dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["project_id"]), table.Rows[i]["project_name"].ToString(), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["project_image"]), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_start_date"].ToString()), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_finish_date"].ToString()), table.Rows[i]["department_name"].ToString());
+                dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["project_id"]), table.Rows[i]["project_name"].ToString(), Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["project_image"]), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_start_date"].ToString()), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_finish_date"].ToString()), table.Rows[i]["department_name"].ToString());
             }
             projeler_datagrid.DataSource = dataTable;
             projeler_datagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

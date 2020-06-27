@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -88,6 +89,18 @@
     </Compile>
     <Compile Include="Forms\calisan_guncelle.Designer.cs">
       <DependentUpon>calisan_guncelle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\connectAPM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\connectAPM.Designer.cs">
+      <DependentUpon>connectAPM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ConnectionStringEnter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConnectionStringEnter.Designer.cs">
+      <DependentUpon>ConnectionStringEnter.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\departman.cs">
       <SubType>Form</SubType>
@@ -143,7 +156,6 @@
     <Compile Include="Forms\sirket_guncelle.Designer.cs">
       <DependentUpon>sirket_guncelle.cs</DependentUpon>
     </Compile>
-    <Compile Include="FUNCTIONS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Forms\proje_detay.cs">
       <SubType>Form</SubType>
@@ -164,6 +176,14 @@
     <Compile Include="Forms\sirket.Designer.cs">
       <DependentUpon>sirket.cs</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\Form\FormManager.cs" />
+    <Compile Include="Scripts\Form\Status.cs" />
+    <Compile Include="Scripts\SQL\SqlConnections.cs" />
+    <Compile Include="Scripts\SQL\SqlQueries.cs" />
+    <Compile Include="Scripts\SQL\SqlSetQueries.cs" />
+    <Compile Include="Scripts\Tools\CryptographyFunctions.cs" />
+    <Compile Include="Scripts\Tools\DateFunctions.cs" />
+    <Compile Include="Scripts\Tools\Tools.cs" />
     <EmbeddedResource Include="AnaForm.resx">
       <DependentUpon>AnaForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -184,6 +204,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\calisan_guncelle.resx">
       <DependentUpon>calisan_guncelle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\connectAPM.resx">
+      <DependentUpon>connectAPM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConnectionStringEnter.resx">
+      <DependentUpon>ConnectionStringEnter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\departman.resx">
       <DependentUpon>departman.cs</DependentUpon>
@@ -300,5 +326,6 @@
     <Content Include="Resources\person.png" />
     <None Include="Resources\project1.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

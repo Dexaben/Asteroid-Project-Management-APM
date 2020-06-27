@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+public class ConnectionStringNotFindException : Exception
+{
+    public ConnectionStringNotFindException(string message) : base(message)
+    {
 
+    }
+}
 namespace Asteroid_Project_ManagerAPP.Scripts.SQL
 {
+   
     public class SQL_COMMAND
     {
         public SqlCommand SqlCommand;
@@ -23,34 +31,21 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
     }
     public static class SqlConnections
     {
-        private static SqlConnection sqlConnection;
-        public static SqlConnection GET_SQLCONNECTION()
-        {
-            SQL_SERVER_CONFIGURATION();
-            if(CONNECTION_STATUS() == System.Data.ConnectionState.Open && !string.IsNullOrEmpty(sqlConnection.ConnectionString))
-            return sqlConnection;
-            else
-            {
-                SQL_SERVER_CONNECT();
-                return sqlConnection;
-            }
-        }
+        public static SqlConnection sqlConnection;
         public static void SQL_SERVER_CONFIGURATION()
         {
-            sqlConnection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionStringAPM"].ConnectionString);
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConnectionStringsSection conn = config.ConnectionStrings;
+            sqlConnection = new SqlConnection(conn.ConnectionStrings["ConnectionStringAPM"].ConnectionString);
             System.Diagnostics.Debug.WriteLine($"System Configuration [ConnectionString:{sqlConnection.ConnectionString}]"); //TEST
         }
         public static void SQL_SERVER_CONNECT()
         {
             if (CONNECTION_STATUS() != System.Data.ConnectionState.Open)
             {
-                if(string.IsNullOrEmpty(sqlConnection.ConnectionString))
-                SQL_SERVER_CONFIGURATION();
                 sqlConnection.Open();
-                System.Diagnostics.Debug.WriteLine($"Server Open [ConnectionString:{sqlConnection.ConnectionString}]"); //TEST
                 return;
             }
-            else SQL_SERVER_DISCONNECT();
         }
         public static void SQL_SERVER_DISCONNECT()
         {
@@ -63,7 +58,9 @@ namespace Asteroid_Project_ManagerAPP.Scripts.SQL
         }
         public static System.Data.ConnectionState CONNECTION_STATUS()
         {
-            return sqlConnection.State;
+            if (sqlConnection != null)
+                return sqlConnection.State;
+            else return System.Data.ConnectionState.Closed;
         }
     }
 }

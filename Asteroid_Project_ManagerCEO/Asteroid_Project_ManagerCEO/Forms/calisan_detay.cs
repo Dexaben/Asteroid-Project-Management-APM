@@ -22,7 +22,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
         Image imag_Onayli;
         Image imag_Onaysiz;
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         private void calisan_detay_Load(object sender, EventArgs e)
         {
@@ -34,9 +34,10 @@ namespace Asteroid_Project_ManagerCEO.Forms
             imag_Onayli = Image.FromFile(filePath + @"\onayli.png");
             komut = new SqlCommand("SELECT worker_name,worker_image,worker_gender,worker_onay,worker_mail FROM WORKERS WHERE worker_id=@WORKER_ID");
             komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan bilgileri alınamadı.", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if(table != null)
-            {                calisan_resmi.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["worker_image"]);
+            {                calisan_resmi.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["worker_image"]);
                 calisan_ismi.Text = table.Rows[0]["worker_name"].ToString();
                 calisan_cinsiyet.Text = table.Rows[0]["worker_gender"].ToString();
                 calisan_email.Text = table.Rows[0]["worker_mail"].ToString();
@@ -54,7 +55,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 }
                 komut = new SqlCommand("SELECT worker_job FROM WORKER_POSITIONS WHERE worker_id = @WORKER_ID");
                 komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan pozisyon alınamadı.", Color.Red, 4000);
+               SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyon alınamadı.", Color.Red, 4000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
                 calisan_pozisyonlari.Items.Clear();
                 if (table !=null)
                 {
@@ -66,7 +68,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 
                 komut = new SqlCommand("SELECT P.project_id,P.project_name,P.project_image,P.project_manager,P.project_start_date,P.project_finish_date,(SELECT COUNT(worker_id) FROM PROJECT_WORKERS WHERE PROJECT_WORKERS.project_id=P.project_id)AS project_workers_count,(SELECT COUNT(task_id) FROM TASKS WHERE TASKS.project_id = P.project_id AND TASKS.task_status<>'Görev Tamamlandı')AS uncomplated_tasks FROM PROJECTS P WHERE P.project_manager = @WORKER_ID");
                 komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 4000);
+                SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 4000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
                 DataTable MANAGED_PROJECTS = new DataTable();
                 MANAGED_PROJECTS.Columns.Add("Proje ID", typeof(int));
                 MANAGED_PROJECTS.Columns.Add("Proje İsmi", typeof(string));
@@ -80,7 +83,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 {
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
-                        MANAGED_PROJECTS.Rows.Add(Convert.ToInt32(table.Rows[i]["project_id"]), table.Rows[i]["project_name"].ToString(), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["project_image"]), table.Rows[i]["project_manager"].ToString(), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_start_date"].ToString()), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_finish_date"].ToString()), Convert.ToInt32(table.Rows[i]["project_workers_count"]), Convert.ToInt32(table.Rows[i]["uncomplated_tasks"]));
+                        MANAGED_PROJECTS.Rows.Add(Convert.ToInt32(table.Rows[i]["project_id"]), table.Rows[i]["project_name"].ToString(), Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["project_image"]), table.Rows[i]["project_manager"].ToString(), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_start_date"].ToString()), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_finish_date"].ToString()), Convert.ToInt32(table.Rows[i]["project_workers_count"]), Convert.ToInt32(table.Rows[i]["uncomplated_tasks"]));
                     } 
                 }
                 yoneticilik_yaptigi_projeler.DataSource = MANAGED_PROJECTS;
@@ -92,7 +95,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
                     }
                 komut = new SqlCommand("SELECT P.project_id,P.project_name,P.project_image,P.project_manager,P.project_start_date,P.project_finish_date,(SELECT COUNT(worker_id) FROM PROJECT_WORKERS WHERE PROJECT_WORKERS.project_id=P.project_id)AS project_workers_count,(SELECT COUNT(task_id) FROM TASKS WHERE TASKS.project_id = P.project_id AND TASKS.task_status<>'Görev Tamamlandı')AS uncomplated_tasks FROM PROJECTS P WHERE P.project_id IN (SELECT PROJECT_WORKERS.project_id FROM PROJECT_WORKERS WHERE PROJECT_WORKERS.worker_id = @WORKER_ID)");
                 komut.Parameters.AddWithValue("@WORKER_ID", worker_id);
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 4000);
+               SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 4000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
                 DataTable PROJELER = new DataTable();
                 PROJELER.Columns.Add("Proje ID", typeof(int));
                 PROJELER.Columns.Add("Proje İsmi", typeof(string));
@@ -106,7 +110,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 {
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
-                        PROJELER.Rows.Add(Convert.ToInt32(table.Rows[i]["project_id"]), table.Rows[i]["project_name"].ToString(), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["project_image"]), table.Rows[i]["project_manager"].ToString(), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_start_date"].ToString()), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_finish_date"].ToString()), Convert.ToInt32(table.Rows[i]["project_workers_count"]), Convert.ToInt32(table.Rows[i]["uncomplated_tasks"]));
+                        PROJELER.Rows.Add(Convert.ToInt32(table.Rows[i]["project_id"]), table.Rows[i]["project_name"].ToString(), Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["project_image"]), table.Rows[i]["project_manager"].ToString(), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_start_date"].ToString()), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["project_finish_date"].ToString()), Convert.ToInt32(table.Rows[i]["project_workers_count"]), Convert.ToInt32(table.Rows[i]["uncomplated_tasks"]));
                     }
                 }
                 gorev_aldigi_projeler.DataSource = PROJELER;
@@ -124,7 +128,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            F.OpenImage(calisan_resmi.Image);
+            Scripts.Tools.ImageTools.OpenImage(calisan_resmi.Image);
         }
         private void dataGridView1_Click(object sender, EventArgs e) //projeler 
         {
@@ -133,7 +137,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 label9.Text = "Görevler - Proje ID:" + Convert.ToInt32(gorev_aldigi_projeler.SelectedRows[0].Cells[0].Value);
                 komut = new SqlCommand("SELECT T.task_id, (SELECT PROJECTS.project_name FROM PROJECTS WHERE PROJECTS.project_id = T.project_id)AS project_name, T.task_name,T.task_status,T.task_start_date,T.task_finish_date,(SELECT COUNT(worker_id) FROM TASK_WORKERS WHERE TASK_WORKERS.task_id = T.task_id)AS task_workers_count,(SELECT COUNT(TASKS.task_id) FROM TASKS WHERE TASKS.project_id = T.project_id AND TASKS.task_status <> 'Görev Tamamlandı')AS tamamlanmayan_gorev_say,(SELECT COUNT(TASKS.task_id) FROM TASKS WHERE TASKS.project_id = T.project_id AND TASKS.task_status = 'Görev Tamamlandı')AS tamamlanan_gorev_say FROM TASKS T WHERE project_id = @PROJECT_ID");
                 komut.Parameters.AddWithValue("@PROJECT_ID", Convert.ToInt32(gorev_aldigi_projeler.SelectedRows[0].Cells[0].Value));
-                table = F.SQL_SELECT_DATATABLE(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 4000);
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Proje bilgileri alınırken hata oluştu.", Color.Red, 4000);
+                table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
                 DataTable GOREVLER = new DataTable();
                 GOREVLER.Columns.Add("Görev ID", typeof(int));
                 GOREVLER.Columns.Add("Görev Projesi", typeof(string));
@@ -146,7 +151,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 {
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
-                        GOREVLER.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"].ToString(), table.Rows[i]["task_status"].ToString(), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_start_date"].ToString()), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), Convert.ToInt32(table.Rows[i]["task_workers_count"]));
+                        GOREVLER.Rows.Add(Convert.ToInt32(table.Rows[i]["task_id"]), table.Rows[i]["project_name"].ToString(), table.Rows[i]["task_name"].ToString(), table.Rows[i]["task_status"].ToString(), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_start_date"].ToString()), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["task_finish_date"].ToString()), Convert.ToInt32(table.Rows[i]["task_workers_count"]));
                         tamamlanmamis_gorev.Text = table.Rows[i]["tamamlanmayan_gorev_say"].ToString();
                         tamamlanmis_gorev.Text = table.Rows[i]["tamamlanan_gorev_say"].ToString();
                     }
@@ -180,7 +185,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            F.FORM_AC(new calisan(), true);
+            Scripts.Form.FormManager.FORM_AC(new calisan(), true);
             this.Close();
         }
     }

@@ -189,6 +189,9 @@
   <data name="proje_takimi.Font" type="System.Drawing.Font, System.Drawing">
     <value>Bahnschrift, 22pt, style=Bold</value>
   </data>
+  <data name="proje_takimi.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="proje_takimi.Location" type="System.Drawing.Point, System.Drawing">
     <value>244, 17</value>
   </data>

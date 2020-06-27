@@ -249,6 +249,7 @@ namespace Asteroid_Project_ManagerAPP.Forms
                     }
                 }
             }
+            else MessageBox.Show("Proje yöneticisi olmadığınızdan proje bilgilerini güncelleyemezsiniz.");
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)

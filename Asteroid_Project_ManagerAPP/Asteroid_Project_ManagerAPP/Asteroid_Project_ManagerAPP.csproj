@@ -92,6 +92,12 @@
     <Compile Include="Forms\connectAPM.Designer.cs">
       <DependentUpon>connectAPM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ConnectionStringEnter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConnectionStringEnter.Designer.cs">
+      <DependentUpon>ConnectionStringEnter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\deadline.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,12 +160,6 @@
       <DependentUpon>projem.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Forms\sohbet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\sohbet.Designer.cs">
-      <DependentUpon>sohbet.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\team.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,6 +201,9 @@
     <EmbeddedResource Include="Forms\connectAPM.resx">
       <DependentUpon>connectAPM.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConnectionStringEnter.resx">
+      <DependentUpon>ConnectionStringEnter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\deadline.resx">
       <DependentUpon>deadline.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,9 +233,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\proje_guncelle.resx">
       <DependentUpon>proje_guncelle.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\sohbet.resx">
-      <DependentUpon>sohbet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

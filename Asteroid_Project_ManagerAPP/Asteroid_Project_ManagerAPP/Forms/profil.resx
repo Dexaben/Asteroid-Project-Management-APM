@@ -536,9 +536,6 @@
   <data name="&gt;&gt;gorevlere_git.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="pozisyonlar_listview.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="pozisyonlar_listview.Font" type="System.Drawing.Font, System.Drawing">
     <value>Bahnschrift SemiLight, 14.25pt</value>
   </data>

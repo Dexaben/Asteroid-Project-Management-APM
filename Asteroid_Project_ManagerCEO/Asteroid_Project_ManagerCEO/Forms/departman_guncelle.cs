@@ -16,7 +16,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
     {
         public int department_ID { get; set; }
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         public departman_guncelle()
@@ -43,16 +43,17 @@ namespace Asteroid_Project_ManagerCEO.Forms
             komut.Parameters.AddWithValue("@dp_name", departman_ismi.Text);
             komut.Parameters.AddWithValue("@dp_id", departman_id.Text);
             komut.Parameters.AddWithValue("@dp_details", departman_aciklamasi.Text);
-            komut.Parameters.Add("@dp_logo", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+            komut.Parameters.Add("@dp_logo", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             if (departman_ismi.Text.Length > 0)
             {
-                if (F.SQL_EXECUTENONQUERY(komut, "Hata:Departman bilgileri güncellenemedi.", Color.Red, 3000))
-                { F.FORM_AC(new departman(), true);  F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından (ID-{department_ID}) {departman_ismi.Text} adlı departmanın bilgileri güncellendi.Departman İsmi:{departman_ismi.Text},Departman Resmi:{resim}", F.GET_SERVER_DATE()); }
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Departman bilgileri güncellenemedi.", Color.Red, 3000);
+                if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
+                { Scripts.Form.FormManager.FORM_AC(new departman(), true);  Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından (ID-{department_ID}) {departman_ismi.Text} adlı departmanın bilgileri güncellendi.Departman İsmi:{departman_ismi.Text},Departman Resmi:{resim}", Scripts.SQL.SqlQueries.GET_SERVER_DATE()); }
             }
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            fileName = F.OPENFILEIMAGE();
+            fileName = Scripts.Tools.ImageTools.OPENFILEIMAGE();
             if(fileName != null)
             departman_resim.Image = Image.FromFile(fileName);
         }
@@ -60,19 +61,20 @@ namespace Asteroid_Project_ManagerCEO.Forms
         {
             komut = new SqlCommand("SELECT department_logo,department_name,department_details FROM DEPARTMENTS WHERE department_id=@id");
             komut.Parameters.AddWithValue("@id", department_ID);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Departman bilgileri alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Departman bilgileri alınamadı.", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if (table.Rows.Count != 0)
             {
                 departman_id.Text = department_ID.ToString();
                 departman_ismi.Text = (table.Rows[0]["department_name"]).ToString();
                 departman_aciklamasi.Text = (table.Rows[0]["department_details"]).ToString();
-                departman_resim.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["department_logo"]);
+                departman_resim.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["department_logo"]);
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            F.FORM_AC(new departman(), true);
+            Scripts.Form.FormManager.FORM_AC(new departman(), true);
         }
 
         private void button3_Click(object sender, EventArgs e)

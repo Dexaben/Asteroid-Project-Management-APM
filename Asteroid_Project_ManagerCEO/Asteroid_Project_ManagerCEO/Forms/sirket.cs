@@ -10,7 +10,7 @@ namespace Asteroid_Project_ManagerCEO
     public partial class sirket : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         public sirket()
@@ -22,7 +22,8 @@ namespace Asteroid_Project_ManagerCEO
         private void sirket_Load(object sender, EventArgs e)
         {
             komut = new SqlCommand("SELECT department_id,department_logo,department_name,department_details FROM DEPARTMENTS");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Departman verileri alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Departman verileri alınamadı.", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Departman ID", typeof(int));
             dataTable.Columns.Add("Departman Logo",typeof(Image));
@@ -32,7 +33,7 @@ namespace Asteroid_Project_ManagerCEO
             {
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["department_id"]), F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["department_logo"]), table.Rows[i]["department_name"].ToString(), table.Rows[i]["department_details"].ToString());
+                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["department_id"]), Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["department_logo"]), table.Rows[i]["department_name"].ToString(), table.Rows[i]["department_details"].ToString());
                 }
             }
             departmanlar_datagrid.DataSource = dataTable;
@@ -43,10 +44,11 @@ namespace Asteroid_Project_ManagerCEO
                     break;
                 }
             komut = new SqlCommand("SELECT company_logo,company_name,company_detail FROM PROGRAM WHERE yonetici_id=1");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Şirket bilgisi alınamadı.", Color.Red, 3000);
+             SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Şirket bilgisi alınamadı.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if (table.Rows.Count != 0)
             {
-                sirket_image.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["company_logo"]);
+                sirket_image.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["company_logo"]);
                 sirket_adi.Text = (table.Rows[0]["company_name"]).ToString();
                 sirket_detayi.Text = (table.Rows[0]["company_detail"]).ToString();
             }
@@ -54,13 +56,13 @@ namespace Asteroid_Project_ManagerCEO
         private void button2_Click(object sender, EventArgs e)
         {
             Forms.sirket_guncelle sirket_Guncelle = new Forms.sirket_guncelle();
-            F.FORM_AC(sirket_Guncelle, true);
+            Scripts.Form.FormManager.FORM_AC(sirket_Guncelle, true);
         }
        
         private void button1_Click(object sender, EventArgs e)
         {
             Forms.departman dep = new Forms.departman();
-            F.FORM_AC(dep, true);
+            Scripts.Form.FormManager.FORM_AC(dep, true);
         }
     }
 }

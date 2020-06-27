@@ -21,13 +21,13 @@ namespace Asteroid_Project_ManagerCEO.Forms
         }
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
         DataTable table = new DataTable();
         private void pozisyonlar_Load(object sender, EventArgs e)
         {
             pozisyon_listview.Items.Clear();
             komut = new SqlCommand("SELECT worker_jobs FROM JOBS");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Çalışan pozisyonları veritabanından alınamadı.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Çalışan pozisyonları veritabanından alınamadı.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if (table.Rows.Count != 0)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
@@ -37,7 +37,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 if(pozisyon_listview.Items.IndexOf("Proje Yöneticisi") == -1)
                 {
                     komut = new SqlCommand("INSERT INTO JOBS(worker_jobs) VALUES(Proje Yöneticisi)");
-                    F.SQL_EXECUTENONQUERY(komut, "Hata:'Proje Yöneticisi' rolü eklenemedi.", Color.Red, 4000);
+                    SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:'Proje Yöneticisi' rolü eklenemedi.", Color.Red, 4000);
+                    Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand);
                 }
             }
             
@@ -49,12 +50,13 @@ namespace Asteroid_Project_ManagerCEO.Forms
             if (UYGUNLUK_KONTROL(t) && pozisyon_listview.Items.IndexOf(t) == -1)
             {
                 komut.Parameters.AddWithValue("@JOB", t);
-                if (F.SQL_EXECUTENONQUERY(komut, "Hata:Pozisyon veritabanına eklenemedi", Color.Red, 3000))
-                { pozisyonlar_Load(this, null); F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından pozisyon kaydı yapıldı.Pozisyon:{t}", F.GET_SERVER_DATE()); }
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon veritabanına eklenemedi", Color.Red, 3000);
+                if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
+                { pozisyonlar_Load(this, null); Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından pozisyon kaydı yapıldı.Pozisyon:{t}", Scripts.SQL.SqlQueries.GET_SERVER_DATE()); }
             }
             else
             {
-                F.DURUM_LABEL("Hata: Pozisyon ismi uygun değil veya zaten varolan bir pozisyon.", Color.Red, 3000);
+                Scripts.Form.Status.STATUS_LABEL("Hata: Pozisyon ismi uygun değil veya zaten varolan bir pozisyon.", Color.Red, 3000);
                 return;
             }
         }
@@ -74,18 +76,20 @@ namespace Asteroid_Project_ManagerCEO.Forms
                     {
                         komut2.Parameters.AddWithValue("@JOB", t);
                         komut.Parameters.AddWithValue("@JOB", t);
-                        if (F.SQL_EXECUTENONQUERY(komut, "Hata:Pozisyon veritabanına eklenemedi", Color.Red, 3000) && F.SQL_EXECUTENONQUERY(komut2, "Hata:Pozisyon veritabanına eklenemedi", Color.Red, 3000))
-                        { F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından pozisyon güncellendi.({pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString()} => {t})", F.GET_SERVER_DATE()); pozisyonlar_Load(this, null);  }
+                        Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon veritabanına eklenemedi", Color.Red, 3000);
+                        Scripts.SQL.SQL_COMMAND SqlCommand2 = new Scripts.SQL.SQL_COMMAND(komut2, "Hata:Pozisyon veritabanına eklenemedi", Color.Red, 3000);
+                        if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand) && Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand2))
+                        { Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından pozisyon güncellendi.({pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString()} => {t})", Scripts.SQL.SqlQueries.GET_SERVER_DATE()); pozisyonlar_Load(this, null);  }
                     }
                     else
                     {
-                        F.DURUM_LABEL("Hata: Pozisyon ismi uygun değil veya zaten varolan bir pozisyon.", Color.Red, 3000);
+                        Scripts.Form.Status.STATUS_LABEL("Hata: Pozisyon ismi uygun değil veya zaten varolan bir pozisyon.", Color.Red, 3000);
                         return;
                     }
                 }
-                else F.DURUM_LABEL("'Proje Yöneticisi' rolü değiştirilemez.", Color.PaleVioletRed, 3000);
+                else Scripts.Form.Status.STATUS_LABEL("'Proje Yöneticisi' rolü değiştirilemez.", Color.PaleVioletRed, 3000);
             }
-            else F.DURUM_LABEL("Herhangibir pozisyon seçilmemiş.", Color.White, 3000);
+            else Scripts.Form.Status.STATUS_LABEL("Herhangibir pozisyon seçilmemiş.", Color.White, 3000);
         }
         bool UYGUNLUK_KONTROL(string sifre)
         {
@@ -99,26 +103,28 @@ namespace Asteroid_Project_ManagerCEO.Forms
             {
                 if(pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString() != "Proje Yöneticisi")
                 {
-                    DialogResult dialog = MessageBox.Show("Bu pozisyonu gerçekten SİLMEK istiyormusunuz? (Bu pozisyona sahip " + F.WORKER_POSITION_COUNT_BY_POSITIONNAME(pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString()) + " çalışan bulunuyor.)", "ÇIKIŞ", MessageBoxButtons.YesNo);
+                    DialogResult dialog = MessageBox.Show("Bu pozisyonu gerçekten SİLMEK istiyormusunuz? (Bu pozisyona sahip " + Scripts.SQL.SqlQueries.WORKER_POSITION_COUNT_BY_POSITIONNAME(pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString()) + " çalışan bulunuyor.)", "ÇIKIŞ", MessageBoxButtons.YesNo);
                     if (dialog == DialogResult.Yes)
                     {
                         komut = new SqlCommand("DELETE FROM JOBS WHERE worker_jobs = @WORKER_JOB");
                         komut.Parameters.AddWithValue("@WORKER_JOB", pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString());
-                        if (F.SQL_EXECUTENONQUERY(komut, "Hata:Pozisyon verisi silinemedi.", Color.Red, 4000))
+                        Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon verisi silinemedi.", Color.Red, 4000);
+                        if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
                         {
                             komut = new SqlCommand("DELETE FROM WORKER_POSITIONS WHERE worker_job = @WORKER_JOB");
                             komut.Parameters.AddWithValue("@WORKER_JOB", pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString());
-                            if (F.SQL_EXECUTENONQUERY(komut, "Hata:Pozisyon verisi çalışandan silinemedi.", Color.Red, 4000))
+                           SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Pozisyon verisi çalışandan silinemedi.", Color.Red, 4000);
+                            if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
                             {
-                                F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından {pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString()} pozisyon kaydı SİLİNDİ.", F.GET_SERVER_DATE());
+                                Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından {pozisyon_listview.Items[pozisyon_listview.SelectedIndex].ToString()} pozisyon kaydı SİLİNDİ.", Scripts.SQL.SqlQueries.GET_SERVER_DATE());
                                 pozisyonlar_Load(this, null);
                             }
                         }
                     }
                 }
-                else F.DURUM_LABEL("'Proje Yöneticisi' rolü silinemez.", Color.PaleVioletRed, 3000);
+                else Scripts.Form.Status.STATUS_LABEL("'Proje Yöneticisi' rolü silinemez.", Color.PaleVioletRed, 3000);
             }
-            else F.DURUM_LABEL("Herhangibir pozisyon seçilmemiş.", Color.White, 3000);
+            else Scripts.Form.Status.STATUS_LABEL("Herhangibir pozisyon seçilmemiş.", Color.White, 3000);
         }
     }
 }

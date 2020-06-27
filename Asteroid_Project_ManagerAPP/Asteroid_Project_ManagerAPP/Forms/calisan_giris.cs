@@ -136,7 +136,7 @@ namespace Asteroid_Project_ManagerAPP
         }
         private void button2_Click_1(object sender, EventArgs e)
         {
-           Scripts.Form.FormManager.FORM_AC(new calisan_kayit(), true);
+           Scripts.Form.FormManager.FORM_AC(new calisan_kayit(),true);
         }
         private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {

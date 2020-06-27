@@ -14,7 +14,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
     public partial class activity : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         public activity()
         {
@@ -27,7 +27,8 @@ namespace Asteroid_Project_ManagerCEO.Forms
         void ACTIVITELERI_LISTELE(string command)
         {
             komut = new SqlCommand(command);
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Aktiviteler veritabanından alınırken sorun oluştu.", Color.Red, 3000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Aktiviteler veritabanından alınırken sorun oluştu.", Color.Red, 3000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Log ID", typeof(int));
             dataTable.Columns.Add("Aktivite", typeof(string));
@@ -50,7 +51,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
                 for (int i = table.Rows.Count-1; i >= 0; i--)
                 {
                     string worker_id = (table.Rows[i]["worker_id"] != DBNull.Value) ?  table.Rows[i]["worker_id"].ToString(): "Kayıt Silinmiş";
-                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["log_id"]), table.Rows[i]["activity"].ToString(), F.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["activity_date"].ToString()), worker_id, F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]));
+                    dataTable.Rows.Add(Convert.ToInt32(table.Rows[i]["log_id"]), table.Rows[i]["activity"].ToString(), Scripts.Tools.DateFunctions.Tarih_Converter_DAY_HOUR_MINUTE(table.Rows[i]["activity_date"].ToString()), worker_id, Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[i]["worker_image"]));
                 }
             }
             activity_datagrid.DataSource = dataTable;
@@ -88,6 +89,27 @@ namespace Asteroid_Project_ManagerCEO.Forms
                     ACTIVITELERI_LISTELE("SELECT L.log_id, L.activity, L.activity_date,L.worker_id, (SELECT WORKERS.worker_image FROM WORKERS WHERE(WORKERS.worker_id = L.worker_id)) as worker_image FROM LOGS L");
                     break;
              }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                komut = new SqlCommand("DELETE FROM LOGS");
+                komut.Connection = Scripts.SQL.SqlConnections.sqlConnection;
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Aktiviteler veritabanından silinirken sorun oluştu.", Color.Red, 3000);
+                Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand);
+
+            }
+            catch
+            {
+                Scripts.Form.Status.STATUS_LABEL("Hata:Aktiviteler veritabanından silinirken sorun oluştu.", Color.Red);
+            }
+            finally
+            {
+                ACTIVITELERI_LISTELE("SELECT L.log_id, L.activity, L.activity_date,L.worker_id, (SELECT WORKERS.worker_image FROM WORKERS WHERE(WORKERS.worker_id = L.worker_id)) as worker_image FROM LOGS L");
+            }
+
         }
     }
 }

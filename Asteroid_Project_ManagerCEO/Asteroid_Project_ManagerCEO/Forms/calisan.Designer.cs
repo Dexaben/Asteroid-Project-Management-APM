@@ -270,7 +270,6 @@
             // pozisyon_listview
             // 
             this.pozisyon_listview.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pozisyon_listview.Enabled = false;
             this.pozisyon_listview.FormattingEnabled = true;
             this.pozisyon_listview.Location = new System.Drawing.Point(158, 130);
             this.pozisyon_listview.Name = "pozisyon_listview";

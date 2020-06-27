@@ -15,7 +15,6 @@ namespace Asteroid_Project_ManagerCEO
     public partial class kayit : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         public kayit()
         {
@@ -65,7 +64,7 @@ namespace Asteroid_Project_ManagerCEO
 
         private void button2_Click(object sender, EventArgs e)
         {
-            fileName = F.OPENFILEIMAGE();
+            fileName = Scripts.Tools.ImageTools.OPENFILEIMAGE();
             if(fileName != null)
             sirket_resmi.Image = Image.FromFile(fileName);
         }
@@ -83,24 +82,25 @@ namespace Asteroid_Project_ManagerCEO
             }
             komut = new SqlCommand("UPDATE PROGRAM SET yonetici_adi=@YONETICIAD,yonetici_password=@YONETICIPASSWORD,company_name=@COMPANYNAME,company_logo=@COMPANYLOGO,company_detail=@COMPANYDETAIL WHERE yonetici_id=1");
             komut.Parameters.AddWithValue("@YONETICIAD", kullanici_adi.Text);
-            komut.Parameters.AddWithValue("@YONETICIPASSWORD", F.Encrypt(sifre.Text));
+            komut.Parameters.AddWithValue("@YONETICIPASSWORD", Scripts.Tools.CryptographyFunctions.Encrypt(sifre.Text));
             komut.Parameters.AddWithValue("@COMPANYNAME", sirket_ismi.Text);
             komut.Parameters.AddWithValue("@COMPANYDETAIL", sirket_detay.Text);
             if (imag == null)
             {
-                komut.Parameters.Add("@COMPANYLOGO", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+                komut.Parameters.Add("@COMPANYLOGO", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
             else
             {
 
-                komut.Parameters.Add("@COMPANYLOGO", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+                komut.Parameters.Add("@COMPANYLOGO", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
-            if (F.SQL_EXECUTENONQUERY(komut, "Hata:Program bilgisi güncellenemedi.", Color.Red, 4000))
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Program bilgisi güncellenemedi.", Color.Red, 4000);
+            if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
             {
                 a.SIRKETBILGI_GUNCELLE();
-                F.FORM_AC(new giris(), true);
-                F.LOG_ENTER(0, $"Hoşgeldiniz.({System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].MapToIPv4()}) {Environment.MachineName} bilgisayarından Şirket kaydı oluşturuldu.Kullanıcı Adı:{kullanici_adi.Text},Şirket İsim:{sirket_ismi.Text},Şirket Resmi:{resim}", F.GET_SERVER_DATE());
-                F.DURUM_LABEL("Durum:Kayıt olundu.Giriş bekleniyor.", Color.White);
+                Scripts.Form.FormManager.FORM_AC(new giris(), true);
+                Scripts.Tools.LogTools.LOG_ENTER(0, $"Hoşgeldiniz.({System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].MapToIPv4()}) {Environment.MachineName} bilgisayarından Şirket kaydı oluşturuldu.Kullanıcı Adı:{kullanici_adi.Text},Şirket İsim:{sirket_ismi.Text},Şirket Resmi:{resim}", Scripts.SQL.SqlQueries.GET_SERVER_DATE());
+                Scripts.Form.Status.STATUS_LABEL("Durum:Kayıt olundu.Giriş bekleniyor.", Color.White);
             }
         }
         bool SIFRE_KONTROL(string sifre)

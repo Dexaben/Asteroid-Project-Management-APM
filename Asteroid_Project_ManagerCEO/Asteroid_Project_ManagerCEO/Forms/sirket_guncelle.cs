@@ -14,7 +14,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
     public partial class sirket_guncelle : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         public sirket_guncelle()
@@ -41,13 +41,14 @@ namespace Asteroid_Project_ManagerCEO.Forms
             komut = new SqlCommand("UPDATE PROGRAM SET company_name=@dp_name,company_detail=@dp_details,company_logo=@dp_logo WHERE yonetici_id=1"); 
                     komut.Parameters.AddWithValue("@dp_name", sirket_adi.Text);
                     komut.Parameters.AddWithValue("@dp_details", sirket_detayi.Text);
-                    komut.Parameters.Add("@dp_logo", SqlDbType.Image, 0).Value = F.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    komut.Parameters.Add("@dp_logo", SqlDbType.Image, 0).Value = Scripts.Tools.ImageTools.CONVERT_IMAGE_TO_BYTE_ARRAY(imag, System.Drawing.Imaging.ImageFormat.Jpeg);
             if (sirket_adi.Text.Length > 0)
             {
-                if (F.SQL_EXECUTENONQUERY(komut, "Hata:Şirket bilgileri güncellenemedi.", Color.Red, 4000))
+                Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Şirket bilgileri güncellenemedi.", Color.Red, 4000);
+                if (Scripts.SQL.SqlSetQueries.SQL_EXECUTENONQUERY(SqlCommand))
                 {
-                    F.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından şirket bilgileri güncellendi.Şirket İsmi:{sirket_adi.Text},Şirket Resmi:{resim}", F.GET_SERVER_DATE());
-                    F.FORM_AC(new sirket(), true);
+                    Scripts.Tools.LogTools.LOG_ENTER(0, $"{Environment.MachineName} bilgisayarından şirket bilgileri güncellendi.Şirket İsmi:{sirket_adi.Text},Şirket Resmi:{resim}", Scripts.SQL.SqlQueries.GET_SERVER_DATE());
+                    Scripts.Form.FormManager.FORM_AC(new sirket(), true);
                     a.SIRKETBILGI_GUNCELLE();
                 }
             }
@@ -57,7 +58,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
         private void button2_Click(object sender, EventArgs e)
         {
 
-            fileName = F.OPENFILEIMAGE();
+            fileName = Scripts.Tools.ImageTools.OPENFILEIMAGE();
             if(fileName != null)
             sirket_resmi.Image = Image.FromFile(fileName);
         }
@@ -65,10 +66,11 @@ namespace Asteroid_Project_ManagerCEO.Forms
         private void sirket_guncelle_Load(object sender, EventArgs e)
         {
             komut = new SqlCommand("SELECT company_logo,company_name,company_detail FROM PROGRAM WHERE yonetici_id=1");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Şirket bilgileri alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Şirket bilgileri alınamadı.", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if(table.Rows.Count !=0)
             {
-                sirket_resmi.Image = F.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["company_logo"]);
+                sirket_resmi.Image = Scripts.Tools.ImageTools.CONVERT_BYTE_ARRAY_TO_IMAGE(table.Rows[0]["company_logo"]);
                 sirket_adi.Text = (table.Rows[0]["company_name"]).ToString();
                 sirket_detayi.Text = (table.Rows[0]["company_detail"]).ToString();
             }
@@ -76,7 +78,7 @@ namespace Asteroid_Project_ManagerCEO.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            F.FORM_AC(new sirket(), true);
+            Scripts.Form.FormManager.FORM_AC(new sirket(), true);
         }
 
         private void sirket_resmi_kaldir_Click(object sender, EventArgs e)

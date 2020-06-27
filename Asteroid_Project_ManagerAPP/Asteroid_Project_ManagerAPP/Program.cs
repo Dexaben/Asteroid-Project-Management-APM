@@ -14,7 +14,8 @@ namespace Asteroid_Project_ManagerAPP
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AnaForm());
+            AnaForm anaForm = (AnaForm)Scripts.Form.FormManager.AnaFormSet();
+            Application.Run(anaForm);
         }
     }
 }

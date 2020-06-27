@@ -9,7 +9,7 @@ namespace Asteroid_Project_ManagerCEO
     public partial class giris : Form
     {
         SqlCommand komut = new SqlCommand();
-        FUNCTIONS F = new FUNCTIONS();
+        
         DataTable table = new DataTable();
         AnaForm a = (AnaForm)Application.OpenForms["AnaForm"];
         public giris()
@@ -21,19 +21,20 @@ namespace Asteroid_Project_ManagerCEO
         private void button1_Click(object sender, EventArgs e)
         {
             komut = new SqlCommand("SELECT yonetici_adi,yonetici_password FROM PROGRAM WHERE yonetici_id=1");
-            table = F.SQL_SELECT_DATATABLE(komut, "Hata:Program bilgileri alınamadı.", Color.Red, 4000);
+            Scripts.SQL.SQL_COMMAND SqlCommand = new Scripts.SQL.SQL_COMMAND(komut, "Hata:Program bilgileri alınamadı.", Color.Red, 4000);
+            table = Scripts.SQL.SqlQueries.SQL_SELECT_DATATABLE(SqlCommand);
             if(table.Rows.Count !=0)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    if (table.Rows[i][0].ToString() == kullanici_adi.Text && F.Decrypt(table.Rows[i][1].ToString()) == sifre.Text)
+                    if (table.Rows[i][0].ToString() == kullanici_adi.Text && Scripts.Tools.CryptographyFunctions.Decrypt(table.Rows[i][1].ToString()) == sifre.Text)
                     {
                         if (kullanici_adi.Text.Length > 0 && sifre.Text.Length > 0)
                         {
                             a.MainMenuStrip.Visible = true;
                             if (a.toolStrip1 != null)
                             {
-                                F.DURUM_LABEL("Durum: Giriş yapıldı. Son giriş zamanı:" + F.GET_SERVER_DATE().ToString(), Color.Green);
+                                Scripts.Form.Status.STATUS_LABEL("Durum: Giriş yapıldı. Son giriş zamanı:" + Scripts.SQL.SqlQueries.GET_SERVER_DATE().ToString(), Color.Green);
                             }
                             if (beni_hatirla.Checked)
                             {
@@ -47,8 +48,8 @@ namespace Asteroid_Project_ManagerCEO
                                 Properties.Settings.Default.AdminPassword = "";
                                 Properties.Settings.Default.Save();
                             }
-                            F.FORM_AC(new Forms.AnaPanel(), true);
-                            F.LOG_ENTER(0, $"({System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].MapToIPv4()}) {Environment.MachineName} bilgisayarından yönetici programına giriş yapıldı.Kullanıcı Adı:{Properties.Settings.Default.AdminUserName}",F.GET_SERVER_DATE());
+                            Scripts.Form.FormManager.FORM_AC(new Forms.AnaPanel(), true);
+                            Scripts.Tools.LogTools.LOG_ENTER(0, $"({System.Net.Dns.GetHostByName(System.Net.Dns.GetHostName()).AddressList[0].MapToIPv4()}) {Environment.MachineName} bilgisayarından yönetici programına giriş yapıldı.Kullanıcı Adı:{Properties.Settings.Default.AdminUserName}",Scripts.SQL.SqlQueries.GET_SERVER_DATE());
                         }
                         else
                         {

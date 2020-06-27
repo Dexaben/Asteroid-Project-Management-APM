@@ -35,8 +35,9 @@
             this.tEAMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kAYITOLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cHATToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pROFİLİMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gorev_bilgileri_groupBox = new System.Windows.Forms.GroupBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -77,6 +78,8 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.gorev_bilgileri_groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
@@ -100,8 +103,7 @@
             this.gİRİŞToolStripMenuItem,
             this.tEAMToolStripMenuItem,
             this.kAYITOLToolStripMenuItem,
-            this.cHATToolStripMenuItem,
-            this.pROFİLİMToolStripMenuItem});
+            this.cHATToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1254, 33);
@@ -152,19 +154,9 @@
             this.cHATToolStripMenuItem.Text = "Takım";
             this.cHATToolStripMenuItem.Click += new System.EventHandler(this.takimToolStripMenuItem_Click);
             // 
-            // pROFİLİMToolStripMenuItem
-            // 
-            this.pROFİLİMToolStripMenuItem.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pROFİLİMToolStripMenuItem.Font = new System.Drawing.Font("Bahnschrift SemiBold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.pROFİLİMToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(154)))), ((int)(((byte)(211)))));
-            this.pROFİLİMToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pROFİLİMToolStripMenuItem.Image")));
-            this.pROFİLİMToolStripMenuItem.Name = "pROFİLİMToolStripMenuItem";
-            this.pROFİLİMToolStripMenuItem.Size = new System.Drawing.Size(105, 29);
-            this.pROFİLİMToolStripMenuItem.Text = "Sohbet";
-            this.pROFİLİMToolStripMenuItem.Click += new System.EventHandler(this.sohbetToolStripMenuItem_Click);
-            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.gorev_bilgileri_groupBox);
             this.panel1.Controls.Add(this.toolStrip1);
             this.panel1.Controls.Add(this.proje_bilgileri_groupBox);
@@ -174,6 +166,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(388, 716);
             this.panel1.TabIndex = 3;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 14);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(361, 163);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox1.Image = global::Asteroid_Project_ManagerAPP.Properties.Resources.asteroidstudiosPNG;
+            this.pictureBox1.Location = new System.Drawing.Point(-61, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(477, 176);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // gorev_bilgileri_groupBox
             // 
@@ -192,7 +204,6 @@
             this.gorev_bilgileri_groupBox.Size = new System.Drawing.Size(361, 121);
             this.gorev_bilgileri_groupBox.TabIndex = 3;
             this.gorev_bilgileri_groupBox.TabStop = false;
-            this.gorev_bilgileri_groupBox.Text = "Görev";
             // 
             // pictureBox7
             // 
@@ -216,12 +227,12 @@
             // 
             // en_yakin_gorev_git
             // 
-            this.en_yakin_gorev_git.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.en_yakin_gorev_git.Font = new System.Drawing.Font("Bahnschrift SemiBold", 11.25F, System.Drawing.FontStyle.Bold);
-            this.en_yakin_gorev_git.ForeColor = System.Drawing.Color.White;
-            this.en_yakin_gorev_git.Location = new System.Drawing.Point(273, 16);
+            this.en_yakin_gorev_git.BackColor = System.Drawing.Color.Honeydew;
+            this.en_yakin_gorev_git.Font = new System.Drawing.Font("Bahnschrift SemiBold", 9F, System.Drawing.FontStyle.Bold);
+            this.en_yakin_gorev_git.ForeColor = System.Drawing.Color.Black;
+            this.en_yakin_gorev_git.Location = new System.Drawing.Point(272, 37);
             this.en_yakin_gorev_git.Name = "en_yakin_gorev_git";
-            this.en_yakin_gorev_git.Size = new System.Drawing.Size(82, 46);
+            this.en_yakin_gorev_git.Size = new System.Drawing.Size(83, 25);
             this.en_yakin_gorev_git.TabIndex = 8;
             this.en_yakin_gorev_git.Text = "Göreve Git";
             this.en_yakin_gorev_git.UseVisualStyleBackColor = false;
@@ -276,7 +287,7 @@
             // 
             // en_yakin_gorev
             // 
-            this.en_yakin_gorev.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.en_yakin_gorev.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.en_yakin_gorev.Cursor = System.Windows.Forms.Cursors.Default;
             this.en_yakin_gorev.Font = new System.Drawing.Font("Bahnschrift", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.en_yakin_gorev.ForeColor = System.Drawing.Color.White;
@@ -291,7 +302,7 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.BackColor = System.Drawing.Color.Black;
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.InfoText;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -529,6 +540,7 @@
             this.textBox6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.textBox6.Size = new System.Drawing.Size(173, 19);
             this.textBox6.TabIndex = 7;
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // menuStrip2
             // 
@@ -613,6 +625,8 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.gorev_bilgileri_groupBox.ResumeLayout(false);
             this.gorev_bilgileri_groupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
@@ -641,7 +655,6 @@
         private System.Windows.Forms.ToolStripMenuItem kAYITOLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tEAMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cHATToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pROFİLİMToolStripMenuItem;
         public System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label8;
@@ -682,5 +695,7 @@
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
